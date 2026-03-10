@@ -32,7 +32,7 @@ const env = {
   appSlug: "tournament-hub",
   // S3 URL of the app logo - set this to the URL returned by generate_image when creating custom logo
   // Leave empty to use the default icon from assets/images/icon.png
-  logoUrl: "",
+  logoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663422454992/e5zs2TyygFZrCB6WqhLLfz/icon-3TdXCpFBC9HYnRMm5CMiWF.png",
   scheme: schemeFromBundleId,
   iosBundleId: bundleId,
   androidPackage: bundleId,
