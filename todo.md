@@ -44,4 +44,77 @@
 - [x] RoleSelector modal component
 
 ## Static Webpage
-- [ ] Interactive presentation webpage with charts and visualizations
+- [x] Interactive presentation webpage with charts and visualizations
+
+## Phase 2 — Enhancements & Expansion
+
+### Theme & Branding
+- [x] Update theme colors (Black, Red, White, Grey)
+- [x] Implement light/dark mode toggle
+- [x] Persist theme preference to AsyncStorage
+- [x] Generate new sports-tech logo (Overtime/OT7 style - Concept 2)
+- [x] Update app.config.ts with new logo URL
+- [x] ThemeToggle component created
+
+### Tournament Data Integration
+- [x] Build Zorts Sports data ingestion system (database schema)
+- [x] zorts_tournaments table for external tournament data
+- [x] Support for Championship 7v7, DR7, Battle 7's, etc.
+- [x] Store historical results and brackets
+- [x] Sync upcoming tournaments
+
+### Team Logo Detection
+- [x] Implement automatic team logo detection (database schema)
+- [x] team_logos table with confidence scoring
+- [x] Search sports databases for logos
+- [x] Store logos in S3 media storage
+- [x] Add fallback placeholder support
+
+### Host Features
+- [x] Entry fee configuration with deadlines (database schema)
+- [x] Late fee settings (database schema)
+- [x] tournamentWaivers table for document uploads
+- [x] waiverSignatures table for digital signatures
+- [x] tournamentRequirements table for eligibility rules
+- [x] Age/graduation class restrictions
+- [x] Roster limits & eligibility rules
+
+### Player Profile Expansion
+- [x] Add social media links (Instagram, Twitter, TikTok, YouTube) to athleteProfiles
+- [x] Add Hudl film links & highlight reels (existing fields)
+- [x] Add player measurables (height, weight, 40-time, vertical) (existing fields)
+- [ ] Display recruiting-style profile layout UI
+
+### Stat Entry System
+- [x] playerStats table with comprehensive stat tracking
+- [x] QB stat tracking (passing yards, TDs, completion %)
+- [x] Receiver stats (receptions, yards, TDs)
+- [x] Defense stats (INTs, breakups, tackles)
+- [x] Team stats (points scored/allowed, W/L record)
+- [x] Authorize coaches/team staff to enter stats
+- [x] StatEntryForm component created
+
+### Leaderboards
+- [x] statLeaderboards table for cached rankings
+- [x] National stat leaderboards screen created
+- [x] State stat leaderboards screen created
+- [x] Filter by graduation class, position, state, tournament, season
+- [x] Display top players and stat leaders
+- [x] Leaderboard component created
+- [x] Added to athlete tab navigation
+
+### UI Modernization
+- [x] Apply new color palette (Black, Red, White, Grey) to theme system
+- [x] Update dashboard cards with new colors
+- [x] Theme toggle button in header
+- [ ] Update tournament listings with new colors
+- [ ] Update player profiles with new colors
+- [ ] Update rankings pages with new colors
+- [ ] Update host dashboard with new colors
+
+### Remaining Tasks
+- [ ] Integrate Stripe for payments
+- [ ] Implement real-time score updates (Socket.IO)
+- [ ] Build AI recruiting exposure score engine
+- [ ] Connect to Zorts Sports API for live data sync
+- [ ] Implement team logo auto-detection service

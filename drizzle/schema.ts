@@ -51,6 +51,11 @@ export const athleteProfiles = mysqlTable("athlete_profiles", {
   receptions: int("receptions").default(0),
   interceptions: int("interceptions").default(0),
   exposureScore: int("exposureScore").default(0),
+  // Social media links
+  instagramHandle: varchar("instagramHandle", { length: 100 }),
+  twitterHandle: varchar("twitterHandle", { length: 100 }),
+  tiktokHandle: varchar("tiktokHandle", { length: 100 }),
+  youtubeChannel: varchar("youtubeChannel", { length: 100 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -377,6 +382,128 @@ export const notifications = mysqlTable("notifications", {
 });
 
 // ─────────────────────────────────────────────
+// ZORTS TOURNAMENTS (External Data)
+// ─────────────────────────────────────────────
+export const zortsTournaments = mysqlTable("zorts_tournaments", {
+  id: int("id").autoincrement().primaryKey(),
+  externalId: varchar("externalId", { length: 100 }).unique(),
+  name: varchar("name", { length: 300 }).notNull(),
+  hostOrganization: varchar("hostOrganization", { length: 200 }),
+  location: varchar("location", { length: 300 }),
+  city: varchar("city", { length: 100 }),
+  state: varchar("state", { length: 50 }),
+  startDate: timestamp("startDate"),
+  endDate: timestamp("endDate"),
+  status: mysqlEnum("status", ["upcoming", "in_progress", "completed"]).default("upcoming"),
+  participatingTeams: int("participatingTeams").default(0),
+  bracketData: text("bracketData"),
+  resultsData: text("resultsData"),
+  source: varchar("source", { length: 50 }).default("zorts"),
+  syncedAt: timestamp("syncedAt").defaultNow(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// ─────────────────────────────────────────────
+// TEAM LOGOS (Auto-detected)
+// ─────────────────────────────────────────────
+export const teamLogos = mysqlTable("team_logos", {
+  id: int("id").autoincrement().primaryKey(),
+  teamId: int("teamId").notNull(),
+  logoUrl: text("logoUrl").notNull(),
+  source: varchar("source", { length: 50 }).default("auto_detected"),
+  confidence: decimal("confidence", { precision: 3, scale: 2 }).default("1.00"),
+  detectedAt: timestamp("detectedAt").defaultNow(),
+});
+
+// ─────────────────────────────────────────────
+// TOURNAMENT WAIVERS & FORMS
+// ─────────────────────────────────────────────
+export const tournamentWaivers = mysqlTable("tournament_waivers", {
+  id: int("id").autoincrement().primaryKey(),
+  tournamentId: int("tournamentId").notNull(),
+  title: varchar("title", { length: 200 }).notNull(),
+  fileUrl: text("fileUrl").notNull(),
+  isRequired: boolean("isRequired").default(true),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// ─────────────────────────────────────────────
+// WAIVER SIGNATURES
+// ─────────────────────────────────────────────
+export const waiverSignatures = mysqlTable("waiver_signatures", {
+  id: int("id").autoincrement().primaryKey(),
+  waiverId: int("waiverId").notNull(),
+  userId: int("userId").notNull(),
+  teamId: int("teamId").notNull(),
+  signedAt: timestamp("signedAt").defaultNow(),
+});
+
+// ─────────────────────────────────────────────
+// TOURNAMENT REQUIREMENTS (Eligibility Rules)
+// ─────────────────────────────────────────────
+export const tournamentRequirements = mysqlTable("tournament_requirements", {
+  id: int("id").autoincrement().primaryKey(),
+  tournamentId: int("tournamentId").notNull(),
+  minGraduationYear: int("minGraduationYear"),
+  maxGraduationYear: int("maxGraduationYear"),
+  minAge: int("minAge"),
+  maxAge: int("maxAge"),
+  maxRosterSize: int("maxRosterSize"),
+  requiresPassport: boolean("requiresPassport").default(true),
+  customRequirements: text("customRequirements"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// ─────────────────────────────────────────────
+// PLAYER STATS (QB, Receivers, Defense, Team)
+// ─────────────────────────────────────────────
+export const playerStats = mysqlTable("player_stats", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  teamId: int("teamId").notNull(),
+  tournamentId: int("tournamentId").notNull(),
+  gameId: int("gameId"),
+  position: varchar("position", { length: 50 }).notNull(),
+  // QB Stats
+  passingYards: int("passingYards").default(0),
+  passingTouchdowns: int("passingTouchdowns").default(0),
+  interceptions: int("interceptions").default(0),
+  completions: int("completions").default(0),
+  attempts: int("attempts").default(0),
+  // Receiver Stats
+  receptions: int("receptions").default(0),
+  receivingYards: int("receivingYards").default(0),
+  receivingTouchdowns: int("receivingTouchdowns").default(0),
+  // Defense Stats
+  tackles: int("tackles").default(0),
+  passBreakups: int("passBreakups").default(0),
+  defensiveInterceptions: int("defensiveInterceptions").default(0),
+  // Team Stats
+  pointsScored: int("pointsScored").default(0),
+  pointsAllowed: int("pointsAllowed").default(0),
+  enteredBy: int("enteredBy").notNull(),
+  verifiedAt: timestamp("verifiedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─────────────────────────────────────────────
+// STAT LEADERBOARDS (Cached/Aggregated)
+// ─────────────────────────────────────────────
+export const statLeaderboards = mysqlTable("stat_leaderboards", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  position: varchar("position", { length: 50 }).notNull(),
+  season: varchar("season", { length: 20 }).notNull(),
+  graduationYear: int("graduationYear"),
+  state: varchar("state", { length: 50 }),
+  statType: varchar("statType", { length: 50 }).notNull(),
+  statValue: int("statValue").default(0),
+  rank: int("rank"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─────────────────────────────────────────────
 // EXPORTED TYPES
 // ─────────────────────────────────────────────
 export type User = typeof users.$inferSelect;
@@ -406,3 +533,11 @@ export type InsertPost = typeof posts.$inferInsert;
 export type Message = typeof messages.$inferSelect;
 export type Follower = typeof followers.$inferSelect;
 export type Notification = typeof notifications.$inferSelect;
+export type ZortsTournament = typeof zortsTournaments.$inferSelect;
+export type TeamLogo = typeof teamLogos.$inferSelect;
+export type TournamentWaiver = typeof tournamentWaivers.$inferSelect;
+export type WaiverSignature = typeof waiverSignatures.$inferSelect;
+export type TournamentRequirement = typeof tournamentRequirements.$inferSelect;
+export type PlayerStat = typeof playerStats.$inferSelect;
+export type InsertPlayerStat = typeof playerStats.$inferInsert;
+export type StatLeaderboard = typeof statLeaderboards.$inferSelect;

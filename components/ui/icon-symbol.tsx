@@ -111,6 +111,9 @@ const MAPPING = {
   "bell.badge.fill": "notification-important",
   "checkmark.rectangle.fill": "check-box",
   "rectangle.and.pencil.and.ellipsis": "rate-review",
+  "moon.fill": "dark-mode",
+  "sun.max.fill": "light-mode",
+  "list.number": "list",
 } as IconMapping;
 
 /**

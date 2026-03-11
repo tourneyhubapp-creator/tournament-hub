@@ -4,6 +4,7 @@ import { RoleSelector } from "@/components/role-selector";
 import { StatCard } from "@/components/ui/stat-card";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useColors } from "@/hooks/use-colors";
 import { useTournament } from "@/lib/tournament-context";
 import { useRouter } from "expo-router";
@@ -34,7 +35,8 @@ function AthleteHome() {
           <Text className="text-2xl font-bold text-foreground">Tournament Hub</Text>
           <Text className="text-sm text-muted">Welcome back, Athlete</Text>
         </View>
-        <View className="flex-row items-center gap-3">
+        <View className="flex-row items-center gap-2">
+          <ThemeToggle />
           <RoleSelector />
           <Pressable
             style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
