@@ -148,3 +148,47 @@
 - [x] Black backgrounds, lime-green accents consistent
 - [x] Layout structure identical between Player and Coach screens
 - [x] Button styles, spacing, and typography match
+
+
+## Phase 4 — App Simplification & Premium Redesign
+
+### Bottom Navigation Restructuring
+- [x] Reduce bottom tabs to absolute minimum (Home, Tournaments, Leaderboards, Profile)
+- [x] Remove Player ID and Coach ID dropdown selectors from tab bar
+- [x] Hide admin/host tabs from athlete view
+- [x] Simplify tab bar appearance
+
+### Profile Tab Enhancement
+- [x] Move Player ID selector to top of Profile screen
+- [x] Move Coach ID selector to top of Profile screen
+- [x] Create clean dropdown/card-based selector UI
+- [x] Allow instant switching between credentials
+- [x] Display current active credential prominently
+
+### Leaderboards & Rankings Consolidation
+- [x] Create unified Leaderboards/Rankings feature
+- [x] Merge national and state rankings into one screen
+- [x] Add segmented control for Rankings vs Leaderboards view
+- [x] Keep filtering and sorting functionality
+
+### Premium Landing Page (Home Screen)
+- [x] Dark-mode sports aesthetic background
+- [x] Bold Mississippi Heat 7on7 branding at top
+- [x] Hero imagery or subtle video background
+- [x] Dynamic stat highlights (top players, recent tournaments)
+- [x] Quick-action buttons (Browse Tournaments, View Leaderboards)
+- [x] Smooth micro-animations on load
+- [x] Professional, fast, exciting visual design
+- [x] Instantly engaging layout
+
+### Home Screen Leaderboard Access
+- [x] Add prominent Leaderboards button/section to home screen
+- [x] Display top 3-5 players as quick preview
+- [x] Link to full Leaderboards screen
+- [x] Integrate with unified Leaderboards feature
+
+### Navigation Simplification
+- [x] Aggressive consolidation of screens and menus
+- [x] Remove redundant features
+- [x] Zero clutter, maximum clarity
+- [x] Intuitive flow requiring no thinking

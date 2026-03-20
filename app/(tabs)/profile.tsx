@@ -1,5 +1,5 @@
+import React, { useState } from "react";
 import { ScrollView, Text, View, Pressable, Switch } from "react-native";
-import { useState } from "react";
 import { ScreenContainer } from "@/components/screen-container";
 import { ScreenHeader } from "@/components/ui/screen-header";
 import { IconSymbol } from "@/components/ui/icon-symbol";
@@ -44,10 +44,61 @@ function MenuItem({ icon, label, value, onPress, danger }: { icon: any; label: s
   );
 }
 
+function IDCardSelector({ type, icon, title, price, isActive, onSelect }: { type: "player" | "coach"; icon: any; title: string; price: string; isActive: boolean; onSelect: () => void }) {
+  const colors = useColors();
+  return (
+    <Pressable
+      onPress={onSelect}
+      style={({ pressed }) => ({
+        opacity: pressed ? 0.7 : 1,
+        flex: 1,
+        marginHorizontal: 8,
+      })}
+    >
+      <View
+        style={{
+          backgroundColor: isActive ? colors.primary : colors.surface,
+          borderWidth: 2,
+          borderColor: isActive ? colors.primary : colors.border,
+          borderRadius: 16,
+          padding: 14,
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <View
+          style={{
+            width: 44,
+            height: 44,
+            borderRadius: 12,
+            backgroundColor: isActive ? colors.background : colors.border,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <IconSymbol name={icon} size={24} color={isActive ? colors.primary : colors.muted} />
+        </View>
+        <Text style={{ fontSize: 13, fontWeight: "700", color: isActive ? "white" : colors.foreground, textAlign: "center" }}>
+          {title}
+        </Text>
+        <Text style={{ fontSize: 11, color: isActive ? "rgba(255,255,255,0.8)" : colors.muted, textAlign: "center" }}>
+          {price}
+        </Text>
+        {isActive && (
+          <View style={{ marginTop: 4, paddingHorizontal: 8, paddingVertical: 2, backgroundColor: "rgba(255,255,255,0.2)", borderRadius: 6 }}>
+            <Text style={{ fontSize: 10, color: "white", fontWeight: "600" }}>Active</Text>
+          </View>
+        )}
+      </View>
+    </Pressable>
+  );
+}
+
 export default function ProfileScreen() {
   const colors = useColors();
   const { activeRole } = useTournament();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [activeIDCard, setActiveIDCard] = useState<"player" | "coach">("player");
 
   const roleLabel = activeRole === "athlete" ? "Athlete" : activeRole === "host" ? "Tournament Host" : "Platform Admin";
   const roleBadgeVariant = activeRole === "admin" ? "accent" : activeRole === "host" ? "primary" : "success";
@@ -96,6 +147,33 @@ export default function ProfileScreen() {
             <RoleSelector />
           </View>
         </View>
+
+        {/* ID Card Selector - Prominent at Top */}
+        {activeRole === "athlete" && (
+          <View style={{ marginHorizontal: 16, marginBottom: 24 }}>
+            <Text style={{ fontSize: 13, fontWeight: "700", color: colors.muted, marginBottom: 12, textTransform: "uppercase", letterSpacing: 0.5 }}>
+              Your Credentials
+            </Text>
+            <View style={{ flexDirection: "row", gap: 0 }}>
+              <IDCardSelector
+                type="player"
+                icon="person.fill"
+                title="Player ID"
+                price="$15/year"
+                isActive={activeIDCard === "player"}
+                onSelect={() => setActiveIDCard("player")}
+              />
+              <IDCardSelector
+                type="coach"
+                icon="bell.fill"
+                title="Coach ID"
+                price="$15/year"
+                isActive={activeIDCard === "coach"}
+                onSelect={() => setActiveIDCard("coach")}
+              />
+            </View>
+          </View>
+        )}
 
         {/* Stats Row */}
         {activeRole === "athlete" && (
