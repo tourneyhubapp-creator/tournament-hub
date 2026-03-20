@@ -118,3 +118,33 @@
 - [ ] Build AI recruiting exposure score engine
 - [ ] Connect to Zorts Sports API for live data sync
 - [ ] Implement team logo auto-detection service
+
+
+## Phase 3 — Visual Redesign (ID Card Screens)
+
+### Player ID Card Screen
+- [x] Redesign Player ID Card to match National Rankings visual style
+- [x] Pure black background with lime-green accents (#39FF14)
+- [x] Green person icon in top-left header square
+- [x] Bold white "Player ID Card" title
+- [x] Gray subtitle text
+- [x] Horizontal dark bar with "$15 / 365 days" in bright green
+- [x] Central content area with large green person icon
+- [x] Three benefits with green checkmarks
+- [x] Prominent lime-green "Purchase" button with cart icon
+
+### Coach ID Card Screen
+- [x] Redesign Coach ID Card with identical layout structure
+- [x] Orange/yellow whistle icon in top-left header square
+- [x] Bold white "Coach ID Card" title
+- [x] Gray subtitle text
+- [x] Horizontal dark bar with "$15 / 365 days" in bright green
+- [x] Central content area with large orange whistle icon
+- [x] Three benefits with green checkmarks
+- [x] Prominent lime-green "Purchase" button with cart icon
+
+### Verification
+- [x] Both screens match National Rankings visual style exactly
+- [x] Black backgrounds, lime-green accents consistent
+- [x] Layout structure identical between Player and Coach screens
+- [x] Button styles, spacing, and typography match
