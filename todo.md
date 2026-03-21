@@ -192,3 +192,30 @@
 - [x] Remove redundant features
 - [x] Zero clutter, maximum clarity
 - [x] Intuitive flow requiring no thinking
+
+
+## Phase 5 — Navigation Revision (Based on Screenshot)
+
+### Bottom Tab Simplification
+- [x] Remove Player ID tab from bottom navigation
+- [x] Remove Coach ID tab from bottom navigation
+- [x] Keep only: Home, Tournaments, Leaderboards, Profile
+- [x] Verify clean, minimal bottom bar
+
+### Leaderboard Screen Enhancement
+- [x] Move Player ID selector to top of Leaderboard screen
+- [x] Move Coach ID selector to top of Leaderboard screen
+- [x] Style as prominent segmented controls or pill buttons
+- [x] Allow instant switching between credentials
+- [x] Consolidate Rankings and Leaderboards in same screen
+
+### Home Screen Quick Access
+- [x] Add prominent Leaderboard quick-access button
+- [x] Position prominently on landing page
+- [x] Link directly to Leaderboard screen
+
+### Testing & Verification
+- [x] Test bottom tab navigation flow
+- [x] Verify credential switching on Leaderboard
+- [x] Confirm home screen quick-access works
+- [x] Zero TypeScript errors

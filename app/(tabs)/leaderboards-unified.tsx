@@ -18,6 +18,7 @@ export default function UnifiedLeaderboardsScreen() {
   const [viewType, setViewType] = useState<"rankings" | "leaderboards">("rankings");
   const [selectedPosition, setSelectedPosition] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState<"national" | "state">("national");
+  const [credentialType, setCredentialType] = useState<"player" | "coach">("player");
 
   // Mock data for national rankings
   const nationalQBLeaders = [
@@ -106,6 +107,72 @@ export default function UnifiedLeaderboardsScreen() {
         <Text style={{ fontSize: 13, color: colors.muted, marginTop: 4 }}>
           National & State Stats
         </Text>
+      </View>
+
+      {/* Credential Type Selector - Prominent at Top */}
+      <View style={{ paddingHorizontal: 16, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: colors.border }}>
+        <Text style={{ fontSize: 12, fontWeight: "700", color: colors.muted, marginBottom: 10, textTransform: "uppercase", letterSpacing: 0.5 }}>
+          View As
+        </Text>
+        <View style={{ flexDirection: "row", gap: 10 }}>
+          <Pressable
+            onPress={() => setCredentialType("player")}
+            style={({ pressed }) => ({
+              flex: 1,
+              paddingVertical: 12,
+              paddingHorizontal: 14,
+              borderRadius: 12,
+              backgroundColor: credentialType === "player" ? colors.primary : colors.surface,
+              borderWidth: credentialType === "player" ? 0 : 1,
+              borderColor: colors.border,
+              opacity: pressed ? 0.8 : 1,
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "center",
+              gap: 8,
+            })}
+          >
+            <IconSymbol name="person.fill" size={16} color={credentialType === "player" ? "#FFF" : colors.foreground} />
+            <Text
+              style={{
+                color: credentialType === "player" ? "#FFF" : colors.foreground,
+                fontWeight: "700",
+                fontSize: 13,
+              }}
+            >
+              Player
+            </Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => setCredentialType("coach")}
+            style={({ pressed }) => ({
+              flex: 1,
+              paddingVertical: 12,
+              paddingHorizontal: 14,
+              borderRadius: 12,
+              backgroundColor: credentialType === "coach" ? colors.primary : colors.surface,
+              borderWidth: credentialType === "coach" ? 0 : 1,
+              borderColor: colors.border,
+              opacity: pressed ? 0.8 : 1,
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "center",
+              gap: 8,
+            })}
+          >
+            <IconSymbol name="bell.fill" size={16} color={credentialType === "coach" ? "#FFF" : colors.foreground} />
+            <Text
+              style={{
+                color: credentialType === "coach" ? "#FFF" : colors.foreground,
+                fontWeight: "700",
+                fontSize: 13,
+              }}
+            >
+              Coach
+            </Text>
+          </Pressable>
+        </View>
       </View>
 
       {/* View Type Selector */}
