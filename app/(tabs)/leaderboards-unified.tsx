@@ -15,10 +15,9 @@ interface LeaderboardEntry {
 
 export default function UnifiedLeaderboardsScreen() {
   const colors = useColors();
-  const [viewType, setViewType] = useState<"rankings" | "leaderboards">("rankings");
+  const [boardType, setBoardType] = useState<"leaderboard" | "indexboard">("leaderboard");
   const [selectedPosition, setSelectedPosition] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState<"national" | "state">("national");
-  const [credentialType, setCredentialType] = useState<"player" | "coach">("player");
 
   // Mock data for national rankings
   const nationalQBLeaders = [
@@ -109,21 +108,21 @@ export default function UnifiedLeaderboardsScreen() {
         </Text>
       </View>
 
-      {/* Credential Type Selector - Prominent at Top */}
+      {/* PROMINENT BOARD TYPE SELECTOR AT TOP */}
       <View style={{ paddingHorizontal: 16, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: colors.border }}>
         <Text style={{ fontSize: 12, fontWeight: "700", color: colors.muted, marginBottom: 10, textTransform: "uppercase", letterSpacing: 0.5 }}>
-          View As
+          Select View
         </Text>
         <View style={{ flexDirection: "row", gap: 10 }}>
           <Pressable
-            onPress={() => setCredentialType("player")}
+            onPress={() => setBoardType("leaderboard")}
             style={({ pressed }) => ({
               flex: 1,
-              paddingVertical: 12,
-              paddingHorizontal: 14,
+              paddingVertical: 14,
+              paddingHorizontal: 16,
               borderRadius: 12,
-              backgroundColor: credentialType === "player" ? colors.primary : colors.surface,
-              borderWidth: credentialType === "player" ? 0 : 1,
+              backgroundColor: boardType === "leaderboard" ? colors.primary : colors.surface,
+              borderWidth: boardType === "leaderboard" ? 0 : 1,
               borderColor: colors.border,
               opacity: pressed ? 0.8 : 1,
               alignItems: "center",
@@ -132,27 +131,27 @@ export default function UnifiedLeaderboardsScreen() {
               gap: 8,
             })}
           >
-            <IconSymbol name="person.fill" size={16} color={credentialType === "player" ? "#FFF" : colors.foreground} />
+            <IconSymbol name="list.number" size={18} color={boardType === "leaderboard" ? "#000" : colors.foreground} />
             <Text
               style={{
-                color: credentialType === "player" ? "#FFF" : colors.foreground,
+                color: boardType === "leaderboard" ? "#000" : colors.foreground,
                 fontWeight: "700",
-                fontSize: 13,
+                fontSize: 14,
               }}
             >
-              Player
+              Leaderboard
             </Text>
           </Pressable>
 
           <Pressable
-            onPress={() => setCredentialType("coach")}
+            onPress={() => setBoardType("indexboard")}
             style={({ pressed }) => ({
               flex: 1,
-              paddingVertical: 12,
-              paddingHorizontal: 14,
+              paddingVertical: 14,
+              paddingHorizontal: 16,
               borderRadius: 12,
-              backgroundColor: credentialType === "coach" ? colors.primary : colors.surface,
-              borderWidth: credentialType === "coach" ? 0 : 1,
+              backgroundColor: boardType === "indexboard" ? colors.primary : colors.surface,
+              borderWidth: boardType === "indexboard" ? 0 : 1,
               borderColor: colors.border,
               opacity: pressed ? 0.8 : 1,
               alignItems: "center",
@@ -161,54 +160,18 @@ export default function UnifiedLeaderboardsScreen() {
               gap: 8,
             })}
           >
-            <IconSymbol name="bell.fill" size={16} color={credentialType === "coach" ? "#FFF" : colors.foreground} />
+            <IconSymbol name="chart.bar.fill" size={18} color={boardType === "indexboard" ? "#000" : colors.foreground} />
             <Text
               style={{
-                color: credentialType === "coach" ? "#FFF" : colors.foreground,
+                color: boardType === "indexboard" ? "#000" : colors.foreground,
                 fontWeight: "700",
-                fontSize: 13,
+                fontSize: 14,
               }}
             >
-              Coach
+              Index Board
             </Text>
           </Pressable>
         </View>
-      </View>
-
-      {/* View Type Selector */}
-      <View style={{ flexDirection: "row", paddingHorizontal: 16, paddingVertical: 12, gap: 8, borderBottomWidth: 1, borderBottomColor: colors.border }}>
-        <Pressable
-          onPress={() => setViewType("rankings")}
-          style={({ pressed }) => ({
-            flex: 1,
-            paddingVertical: 10,
-            paddingHorizontal: 16,
-            borderRadius: 8,
-            backgroundColor: viewType === "rankings" ? colors.primary : colors.surface,
-            opacity: pressed ? 0.8 : 1,
-            alignItems: "center",
-          })}
-        >
-          <Text style={{ color: viewType === "rankings" ? "#FFF" : colors.foreground, fontWeight: "600", fontSize: 14 }}>
-            Rankings
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setViewType("leaderboards")}
-          style={({ pressed }) => ({
-            flex: 1,
-            paddingVertical: 10,
-            paddingHorizontal: 16,
-            borderRadius: 8,
-            backgroundColor: viewType === "leaderboards" ? colors.primary : colors.surface,
-            opacity: pressed ? 0.8 : 1,
-            alignItems: "center",
-          })}
-        >
-          <Text style={{ color: viewType === "leaderboards" ? "#FFF" : colors.foreground, fontWeight: "600", fontSize: 14 }}>
-            Leaderboards
-          </Text>
-        </Pressable>
       </View>
 
       {/* National/State Tab Selector */}
@@ -217,15 +180,15 @@ export default function UnifiedLeaderboardsScreen() {
           onPress={() => setSelectedTab("national")}
           style={({ pressed }) => ({
             flex: 1,
-            paddingVertical: 8,
+            paddingVertical: 10,
             paddingHorizontal: 12,
-            borderRadius: 6,
+            borderRadius: 8,
             backgroundColor: selectedTab === "national" ? colors.primary : colors.surface,
             opacity: pressed ? 0.8 : 1,
             alignItems: "center",
           })}
         >
-          <Text style={{ color: selectedTab === "national" ? "#FFF" : colors.foreground, fontWeight: "600", fontSize: 12 }}>
+          <Text style={{ color: selectedTab === "national" ? "#000" : colors.foreground, fontWeight: "600", fontSize: 13 }}>
             National
           </Text>
         </Pressable>
@@ -233,15 +196,15 @@ export default function UnifiedLeaderboardsScreen() {
           onPress={() => setSelectedTab("state")}
           style={({ pressed }) => ({
             flex: 1,
-            paddingVertical: 8,
+            paddingVertical: 10,
             paddingHorizontal: 12,
-            borderRadius: 6,
+            borderRadius: 8,
             backgroundColor: selectedTab === "state" ? colors.primary : colors.surface,
             opacity: pressed ? 0.8 : 1,
             alignItems: "center",
           })}
         >
-          <Text style={{ color: selectedTab === "state" ? "#FFF" : colors.foreground, fontWeight: "600", fontSize: 12 }}>
+          <Text style={{ color: selectedTab === "state" ? "#000" : colors.foreground, fontWeight: "600", fontSize: 13 }}>
             State
           </Text>
         </Pressable>
@@ -266,7 +229,7 @@ export default function UnifiedLeaderboardsScreen() {
             >
               <Text
                 style={{
-                  color: selectedPosition === pos || (pos === "All" && selectedPosition === null) ? "#FFF" : colors.foreground,
+                  color: selectedPosition === pos || (pos === "All" && selectedPosition === null) ? "#000" : colors.foreground,
                   fontSize: 13,
                   fontWeight: "600",
                 }}
@@ -278,13 +241,37 @@ export default function UnifiedLeaderboardsScreen() {
         </View>
       </ScrollView>
 
-      {/* Leaderboard List */}
-      <FlatList
-        data={getLeaderboardData()}
-        renderItem={renderLeaderboardEntry}
-        keyExtractor={(item) => `${item.rank}-${item.playerName}`}
-        scrollEnabled={false}
-      />
+      {/* Content based on board type */}
+      {boardType === "leaderboard" ? (
+        <FlatList
+          data={getLeaderboardData()}
+          renderItem={renderLeaderboardEntry}
+          keyExtractor={(item) => `${item.rank}-${item.playerName}`}
+          scrollEnabled={false}
+        />
+      ) : (
+        <View style={{ paddingHorizontal: 16, paddingVertical: 24, alignItems: "center" }}>
+          <View
+            style={{
+              width: 80,
+              height: 80,
+              borderRadius: 16,
+              backgroundColor: colors.surface,
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 16,
+            }}
+          >
+            <IconSymbol name="chart.bar.fill" size={40} color={colors.primary} />
+          </View>
+          <Text style={{ fontSize: 16, fontWeight: "700", color: colors.foreground, marginBottom: 8 }}>
+            Index Board
+          </Text>
+          <Text style={{ fontSize: 13, color: colors.muted, textAlign: "center", lineHeight: 20 }}>
+            Index Board view shows advanced analytics and performance trends. Coming soon with detailed statistics and visualizations.
+          </Text>
+        </View>
+      )}
     </ScreenContainer>
   );
 }

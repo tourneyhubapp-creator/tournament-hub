@@ -219,3 +219,25 @@
 - [x] Verify credential switching on Leaderboard
 - [x] Confirm home screen quick-access works
 - [x] Zero TypeScript errors
+
+
+## Phase 6 — UI Update (Screenshot-Based)
+
+### Bottom Navigation Cleanup
+- [x] Remove two blue-circled dropdowns from bottom nav bar
+- [x] Keep only 4 clean tabs: Home, Tournaments, Leaderboards, Profile
+- [x] Verify clean, minimal bottom navigation appearance
+
+### Leaderboard Screen Selectors
+- [x] Add prominent dropdown/segmented control at top of Leaderboard screen
+- [x] Create "Leaderboard" option (original leaderb… view)
+- [x] Create "Index Board" option (original index-b… view)
+- [x] Style selectors with green/black Mississippi Heat theme
+- [x] Implement switching between Leaderboard and Index Board views
+- [x] Ensure visual consistency with app branding
+
+### Verification
+- [x] Test bottom navigation flow
+- [x] Verify Leaderboard/Index Board switching works
+- [x] Confirm all other UI elements unchanged (branding, stats, layout)
+- [x] Zero TypeScript errors
