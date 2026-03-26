@@ -15,6 +15,13 @@
       "when": 1773178529960,
       "tag": "0001_typical_nicolaos",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1774551276590,
+      "tag": "0002_ancient_saracen",
+      "breakpoints": true
     }
   ]
 }

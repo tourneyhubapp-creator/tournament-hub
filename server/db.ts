@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
@@ -94,10 +94,13 @@ export async function getUserByOpenId(openId: string) {
 // ─────────────────────────────────────────────
 // TOURNAMENT HUB QUERY HELPERS
 // ─────────────────────────────────────────────
-import { and, desc, sql } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import {
+  athleteHeadshots,
   athleteProfiles,
   brackets,
+  checkInPermissions,
+  facialRecognitionCheckins,
   followers,
   games,
   messages,
@@ -112,6 +115,7 @@ import {
   posts,
   rankings,
   receipts,
+  teamMemberInvitations,
   teamMembers,
   teams,
   teamsInTournament,
@@ -523,4 +527,75 @@ export async function getPoolsByTournament(tournamentId: number) {
   const db = await getDb();
   if (!db) return [];
   return db.select().from(pools).where(eq(pools.tournamentId, tournamentId));
+}
+
+
+// FACIAL RECOGNITION CHECK-IN
+export async function uploadAthleteHeadshot(userId: number, photoUrl: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(athleteHeadshots).values({ userId, photoUrl, isVerified: false });
+  return (result as any)[0]?.insertId ?? 0;
+}
+
+export async function createFacialRecognitionCheckin(
+  tournamentId: number,
+  athleteId: number,
+  hostId: number,
+  matchConfidence: number,
+  checkInMode: "player_by_player" | "group_photo"
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const verificationStatus = matchConfidence > 0.85 ? "confirmed" : "unrecognized";
+  const result = await db.insert(facialRecognitionCheckins).values({
+    tournamentId: tournamentId,
+    athleteId: athleteId,
+    hostId: hostId,
+    matchConfidence: String(matchConfidence),
+    verificationStatus: verificationStatus as "confirmed" | "unrecognized" | "manual_verified",
+    checkInMode: checkInMode,
+  });
+  return (result as any)[0]?.insertId ?? 0;
+}
+
+export async function getCheckInsByTournament(tournamentId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(facialRecognitionCheckins).where(eq(facialRecognitionCheckins.tournamentId, tournamentId)).orderBy(desc(facialRecognitionCheckins.checkedInAt));
+}
+
+export async function inviteTeamMember(
+  tournamentId: number,
+  inviterId: number,
+  inviteeId: number,
+  permissionType: "facial_recognition_checkin" | "score_entry" | "full_admin"
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(teamMemberInvitations).values({
+    tournamentId,
+    inviterId,
+    inviteeId,
+    permissionType,
+  });
+  return (result as any)[0]?.insertId ?? 0;
+}
+
+export async function acceptTeamMemberInvitation(invitationId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(teamMemberInvitations).set({ status: "accepted", acceptedAt: new Date() }).where(eq(teamMemberInvitations.id, invitationId));
+}
+
+export async function getTeamMembersByTournament(tournamentId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(teamMemberInvitations).where(eq(teamMemberInvitations.tournamentId, tournamentId)).orderBy(desc(teamMemberInvitations.createdAt));
+}
+
+export async function revokeCheckInPermission(tournamentId: number, userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(checkInPermissions).set({ revokedAt: new Date() }).where(and(eq(checkInPermissions.tournamentId, tournamentId), eq(checkInPermissions.userId, userId)));
 }

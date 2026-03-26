@@ -229,6 +229,43 @@ export default function HomeScreen() {
           </View>
         </View>
 
+        {/* Facial Recognition Check-In */}
+        <View style={{ paddingHorizontal: 16, paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: "#333" }}>
+          <Pressable
+            onPress={() => router.push("/facial-recognition-checkin")}
+            style={{
+              backgroundColor: "#39FF14",
+              borderRadius: 12,
+              padding: 14,
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 12,
+            }}
+          >
+            <View
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 10,
+                backgroundColor: "rgba(0, 0, 0, 0.2)",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <IconSymbol name="face.smiling.fill" size={20} color="#000" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontSize: 14, fontWeight: "700", color: "#000", marginBottom: 2 }}>
+                Facial Recognition Check-In
+              </Text>
+              <Text style={{ fontSize: 11, color: "rgba(0, 0, 0, 0.7)" }}>
+                Fast athlete verification
+              </Text>
+            </View>
+            <IconSymbol name="chevron.right" size={20} color="#000" />
+          </Pressable>
+        </View>
+
         {/* Top National Players */}
         <View style={{ paddingHorizontal: 16, paddingVertical: 16 }}>
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>

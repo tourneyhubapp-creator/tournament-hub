@@ -504,6 +504,60 @@ export const statLeaderboards = mysqlTable("stat_leaderboards", {
 });
 
 // ─────────────────────────────────────────────
+// ATHLETE HEADSHOTS (for Facial Recognition)
+// ─────────────────────────────────────────────
+export const athleteHeadshots = mysqlTable("athlete_headshots", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  photoUrl: text("photoUrl").notNull(),
+  isVerified: boolean("isVerified").default(false),
+  uploadedAt: timestamp("uploadedAt").defaultNow().notNull(),
+  verifiedAt: timestamp("verifiedAt"),
+});
+
+// ─────────────────────────────────────────────
+// FACIAL RECOGNITION CHECK-INS
+// ─────────────────────────────────────────────
+export const facialRecognitionCheckins = mysqlTable("facial_recognition_checkins", {
+  id: int("id").autoincrement().primaryKey(),
+  tournamentId: int("tournamentId").notNull(),
+  athleteId: int("athleteId").notNull(),
+  hostId: int("hostId").notNull(),
+  matchConfidence: decimal("matchConfidence", { precision: 3, scale: 2 }).notNull(),
+  verificationStatus: mysqlEnum("verificationStatus", ["confirmed", "unrecognized", "manual_verified"]).default("confirmed"),
+  checkInMode: mysqlEnum("checkInMode", ["player_by_player", "group_photo"]).notNull(),
+  checkedInAt: timestamp("checkedInAt").defaultNow().notNull(),
+});
+
+// ─────────────────────────────────────────────
+// TEAM MEMBER INVITATIONS
+// ─────────────────────────────────────────────
+export const teamMemberInvitations = mysqlTable("team_member_invitations", {
+  id: int("id").autoincrement().primaryKey(),
+  tournamentId: int("tournamentId").notNull(),
+  inviterId: int("inviterId").notNull(),
+  inviteeId: int("inviteeId").notNull(),
+  status: mysqlEnum("status", ["pending", "accepted", "declined", "revoked"]).default("pending"),
+  permissionType: mysqlEnum("permissionType", ["facial_recognition_checkin", "score_entry", "full_admin"]).default("facial_recognition_checkin"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  acceptedAt: timestamp("acceptedAt"),
+  revokedAt: timestamp("revokedAt"),
+});
+
+// ─────────────────────────────────────────────
+// CHECK-IN PERMISSIONS
+// ─────────────────────────────────────────────
+export const checkInPermissions = mysqlTable("check_in_permissions", {
+  id: int("id").autoincrement().primaryKey(),
+  tournamentId: int("tournamentId").notNull(),
+  userId: int("userId").notNull(),
+  permissionType: mysqlEnum("permissionType", ["facial_recognition_checkin", "score_entry", "full_admin"]).default("facial_recognition_checkin"),
+  grantedBy: int("grantedBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  revokedAt: timestamp("revokedAt"),
+});
+
+// ─────────────────────────────────────────────
 // EXPORTED TYPES
 // ─────────────────────────────────────────────
 export type User = typeof users.$inferSelect;
@@ -541,3 +595,11 @@ export type TournamentRequirement = typeof tournamentRequirements.$inferSelect;
 export type PlayerStat = typeof playerStats.$inferSelect;
 export type InsertPlayerStat = typeof playerStats.$inferInsert;
 export type StatLeaderboard = typeof statLeaderboards.$inferSelect;
+export type AthleteHeadshot = typeof athleteHeadshots.$inferSelect;
+export type InsertAthleteHeadshot = typeof athleteHeadshots.$inferInsert;
+export type FacialRecognitionCheckin = typeof facialRecognitionCheckins.$inferSelect;
+export type InsertFacialRecognitionCheckin = typeof facialRecognitionCheckins.$inferInsert;
+export type TeamMemberInvitation = typeof teamMemberInvitations.$inferSelect;
+export type InsertTeamMemberInvitation = typeof teamMemberInvitations.$inferInsert;
+export type CheckInPermission = typeof checkInPermissions.$inferSelect;
+export type InsertCheckInPermission = typeof checkInPermissions.$inferInsert;

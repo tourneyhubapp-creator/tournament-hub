@@ -402,6 +402,64 @@ export const appRouter = router({
   }),
 
   // ─────────────────────────────────────────────
+  // FACIAL RECOGNITION CHECK-IN
+  // ─────────────────────────────────────────────
+  facialRecognition: router({
+    uploadHeadshot: protectedProcedure
+      .input(z.object({
+        photoUrl: z.string().url(),
+      }))
+      .mutation(({ ctx, input }) => db.uploadAthleteHeadshot(ctx.user.id, input.photoUrl)),
+
+    checkIn: protectedProcedure
+      .input(z.object({
+        tournamentId: z.number(),
+        athleteId: z.number(),
+        matchConfidence: z.number().min(0).max(1),
+        checkInMode: z.enum(["player_by_player", "group_photo"]),
+      }))
+      .mutation(({ ctx, input }) => db.createFacialRecognitionCheckin(
+        input.tournamentId,
+        input.athleteId,
+        ctx.user.id,
+        input.matchConfidence,
+        input.checkInMode
+      )),
+
+    getCheckIns: protectedProcedure
+      .input(z.object({ tournamentId: z.number() }))
+      .query(({ input }) => db.getCheckInsByTournament(input.tournamentId)),
+
+    inviteTeamMember: protectedProcedure
+      .input(z.object({
+        tournamentId: z.number(),
+        inviteeId: z.number(),
+        permissionType: z.enum(["facial_recognition_checkin", "score_entry", "full_admin"]),
+      }))
+      .mutation(({ ctx, input }) => db.inviteTeamMember(
+        input.tournamentId,
+        ctx.user.id,
+        input.inviteeId,
+        input.permissionType
+      )),
+
+    acceptInvitation: protectedProcedure
+      .input(z.object({ invitationId: z.number() }))
+      .mutation(({ input }) => db.acceptTeamMemberInvitation(input.invitationId)),
+
+    getTeamMembers: protectedProcedure
+      .input(z.object({ tournamentId: z.number() }))
+      .query(({ input }) => db.getTeamMembersByTournament(input.tournamentId)),
+
+    revokeAccess: protectedProcedure
+      .input(z.object({
+        tournamentId: z.number(),
+        userId: z.number(),
+      }))
+      .mutation(({ input }) => db.revokeCheckInPermission(input.tournamentId, input.userId)),
+  }),
+
+  // ─────────────────────────────────────────────
   // PLATFORM CONFIG (Admin)
   // ─────────────────────────────────────────────
   config: router({
