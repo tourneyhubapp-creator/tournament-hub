@@ -104,6 +104,7 @@ export default function TabLayout() {
       <Tabs.Screen name="passport" options={{ href: null }} />
       <Tabs.Screen name="player-id-card" options={{ href: null }} />
       <Tabs.Screen name="coach-id-card" options={{ href: null }} />
+      <Tabs.Screen name="leaderboards" options={{ href: null }} />
       <Tabs.Screen name="host-tournaments" options={{ href: null }} />
       <Tabs.Screen name="host-teams" options={{ href: null }} />
       <Tabs.Screen name="host-payments" options={{ href: null }} />
