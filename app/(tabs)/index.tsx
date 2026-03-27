@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, Text, View, Pressable, Animated } from "react-native";
+import { ScrollView, Text, View, Pressable, Animated, Image } from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { IconSymbol } from "@/components/ui/icon-symbol";
@@ -65,42 +65,32 @@ export default function HomeScreen() {
   return (
     <ScreenContainer className="bg-black flex-1 p-0">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="bg-black">
-        {/* Hero Section with Branding */}
+        {/* Hero Section with Official Logo */}
         <Animated.View
           style={{
             opacity: fadeAnim,
             transform: [{ translateY: slideAnim }],
             paddingHorizontal: 16,
             paddingVertical: 24,
-            backgroundColor: "rgba(57, 255, 20, 0.05)",
+            backgroundColor: "rgba(239, 68, 68, 0.05)",
             borderBottomWidth: 1,
-            borderBottomColor: "rgba(57, 255, 20, 0.2)",
+            borderBottomColor: "rgba(239, 68, 68, 0.2)",
+            alignItems: "center",
           }}
         >
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 16 }}>
-            <View
-              style={{
-                width: 44,
-                height: 44,
-                borderRadius: 12,
-                backgroundColor: "#39FF14",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <IconSymbol name="flame.fill" size={24} color="#000" />
-            </View>
-            <View>
-              <Text style={{ fontSize: 16, fontWeight: "700", color: "#39FF14", letterSpacing: 0.5 }}>
-                TOURNAMENT HUB
-              </Text>
-              <Text style={{ fontSize: 12, color: "#AAA", marginTop: 2 }}>
-                Elite Sports Platform
-              </Text>
-            </View>
-          </View>
+          {/* Official TourneyHub Logo */}
+          <Image
+            source={require("@/assets/images/icon.png")}
+            style={{
+              width: 80,
+              height: 80,
+              marginBottom: 16,
+              borderRadius: 16,
+            }}
+            resizeMode="contain"
+          />
 
-          <Text style={{ fontSize: 28, fontWeight: "700", color: "#FFF", lineHeight: 36 }}>
+          <Text style={{ fontSize: 28, fontWeight: "700", color: "#FFF", lineHeight: 36, textAlign: "center" }}>
             Welcome back, Marcus
           </Text>
           <Text style={{ fontSize: 13, color: "#AAA", marginTop: 8 }}>
@@ -132,22 +122,22 @@ export default function HomeScreen() {
                     width: 36,
                     height: 36,
                     borderRadius: 10,
-                    backgroundColor: "#39FF14",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: 8,
-                  }}
-                >
-                  <IconSymbol name={stat.icon} size={18} color="#000" />
-                </View>
-                <Text style={{ fontSize: 18, fontWeight: "700", color: "#39FF14" }}>
+                backgroundColor: "#EF4444",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 8,
+              }}
+            >
+              <IconSymbol name={stat.icon} size={18} color="#FFF" />
+            </View>
+            <Text style={{ fontSize: 18, fontWeight: "700", color: "#EF4444" }}>
                   {stat.value}
                 </Text>
                 <Text style={{ fontSize: 11, color: "#AAA", marginTop: 4, textAlign: "center" }}>
                   {stat.label}
                 </Text>
                 {stat.trend && (
-                  <Text style={{ fontSize: 10, color: "#39FF14", marginTop: 4, fontWeight: "600" }}>
+                  <Text style={{ fontSize: 10, color: "#EF4444", marginTop: 4, fontWeight: "600" }}>
                     {stat.trend}
                   </Text>
                 )}
@@ -164,12 +154,12 @@ export default function HomeScreen() {
             marginVertical: 12,
             paddingVertical: 16,
             paddingHorizontal: 16,
-            backgroundColor: "#39FF14",
+            backgroundColor: "#EF4444",
             borderRadius: 16,
             opacity: pressed ? 0.85 : 1,
           })}
         >
-          <Text style={{ fontSize: 16, fontWeight: "700", color: "#000", marginBottom: 4 }}>
+          <Text style={{ fontSize: 16, fontWeight: "700", color: "#FFF", marginBottom: 4 }}>
             View Rankings
           </Text>
           <Text style={{ fontSize: 13, color: "#000", opacity: 0.8 }}>
@@ -184,7 +174,7 @@ export default function HomeScreen() {
               Upcoming Events
             </Text>
             <Pressable onPress={() => router.push("./tournaments")}>
-              <Text style={{ fontSize: 13, color: "#39FF14", fontWeight: "600" }}>
+              <Text style={{ fontSize: 13, color: "#EF4444", fontWeight: "600" }}>
                 See All
               </Text>
             </Pressable>
@@ -214,13 +204,13 @@ export default function HomeScreen() {
                 </View>
                 <Pressable
                   style={{
-                    backgroundColor: "#39FF14",
+                    backgroundColor: "#EF4444",
                     paddingVertical: 8,
                     paddingHorizontal: 16,
                     borderRadius: 8,
                   }}
                 >
-                  <Text style={{ fontSize: 12, fontWeight: "700", color: "#000" }}>
+                  <Text style={{ fontSize: 12, fontWeight: "700", color: "#FFF" }}>
                     {tournament.status}
                   </Text>
                 </Pressable>
@@ -237,7 +227,7 @@ export default function HomeScreen() {
               Top National Players
             </Text>
             <Pressable onPress={() => router.push("./leaderboards-unified")}>
-              <Text style={{ fontSize: 13, color: "#39FF14", fontWeight: "600" }}>
+              <Text style={{ fontSize: 13, color: "#EF4444", fontWeight: "600" }}>
                 View All
               </Text>
             </Pressable>
