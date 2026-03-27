@@ -102,3 +102,17 @@
 - [x] Hide Facial Recognition section for Athlete role
 - [x] Move Host Dashboard features into Profile page for Hosts
 - [x] Verify clean bottom navigation with 4 tabs only
+
+
+## Phase 9 — UI Refinement & Consolidation
+
+- [x] Remove host-dashboard tab from bottom navigation
+- [x] Remove facial-recognition tab from bottom navigation  
+- [x] Keep only 4 core tabs: Home, Tournaments, Leaderboards, Profile
+- [x] Move Host Dashboard into Host Console (accessible from Host role)
+- [x] Move Facial Recognition Check-In into Admin Console (accessible from Admin role)
+- [x] Fix responsive layout — ensure no horizontal overflow
+- [x] Verify all content fits within phone frame without cropping
+- [x] Change #1 player name from "Marcus Johnson" to "Dakota"
+- [x] Keep rank, pass yards, and styling consistent
+- [x] Test all screens for proper display

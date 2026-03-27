@@ -57,7 +57,7 @@ export default function HomeScreen() {
   ];
 
   const topPlayers = [
-    { rank: 1, name: "Marcus Johnson", stat: "2,840 Pass Yards" },
+    { rank: 1, name: "Dakota", stat: "2,840 Pass Yards" },
     { rank: 2, name: "Jake Williams", stat: "2,650 Pass Yards" },
     { rank: 3, name: "Tyler Brown", stat: "2,520 Pass Yards" },
   ];
