@@ -196,6 +196,16 @@ export default function ProfileScreen() {
           </View>
         )}
 
+        {/* Host & Admin - Facial Recognition Check-In */}
+        {(activeRole === "host" || activeRole === "admin") && (
+          <View style={{ marginHorizontal: 16, marginBottom: 16, backgroundColor: colors.surface, borderRadius: 20, borderWidth: 1, borderColor: colors.border, overflow: "hidden" }}>
+            <Text style={{ fontSize: 13, fontWeight: "700", color: colors.muted, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 }}>Tournament Management</Text>
+            <MenuItem icon="camera.fill" label="Facial Recognition Check-In" />
+            {activeRole === "host" && <MenuItem icon="person.2.fill" label="Invite Team Members" />}
+            {activeRole === "host" && <MenuItem icon="chart.bar.fill" label="Tournament Dashboard" />}
+          </View>
+        )}
+
         {/* Athlete-specific */}
         {activeRole === "athlete" && (
           <View style={{ marginHorizontal: 16, marginBottom: 16, backgroundColor: colors.surface, borderRadius: 20, borderWidth: 1, borderColor: colors.border, overflow: "hidden" }}>

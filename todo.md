@@ -90,3 +90,15 @@
 - [ ] Implement real-time score updates (Socket.IO)
 - [ ] Build AI recruiting exposure score engine
 - [ ] Connect to Zorts Sports API for live data sync
+
+
+## Phase 8 — Navigation Cleanup
+
+- [x] Remove host-dashboard tab from bottom navigation bar
+- [x] Remove facial-recognition tab from bottom navigation bar
+- [x] Keep only 4 core tabs: Home, Tournaments, Leaderboards, Profile
+- [x] Move Facial Recognition Check-In feature into Profile page
+- [x] Show Facial Recognition section only for Host and Admin roles
+- [x] Hide Facial Recognition section for Athlete role
+- [x] Move Host Dashboard features into Profile page for Hosts
+- [x] Verify clean bottom navigation with 4 tabs only
