@@ -32,17 +32,17 @@ export default function TabLayout() {
           tabBarStyle,
         }}
       >
-        <Tabs.Screen name="index" options={{ title: "Dashboard", tabBarIcon: ({ color }) => <IconSymbol size={26} name="chart.bar.fill" color={color} /> }} />
+        <Tabs.Screen name="leaderboards-unified" options={{ title: "Leaderboards", tabBarIcon: ({ color }) => <IconSymbol size={26} name="list.number" color={color} /> }} />
         <Tabs.Screen name="host-tournaments" options={{ title: "Tournaments", tabBarIcon: ({ color }) => <IconSymbol size={26} name="trophy.fill" color={color} /> }} />
         <Tabs.Screen name="host-teams" options={{ title: "Teams", tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.2.fill" color={color} /> }} />
         <Tabs.Screen name="profile" options={{ title: "Profile", tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.fill" color={color} /> }} />
         {/* Hide all other tabs */}
+        <Tabs.Screen name="index" options={{ href: null }} />
         <Tabs.Screen name="feed" options={{ href: null }} />
         <Tabs.Screen name="rankings" options={{ href: null }} />
         <Tabs.Screen name="tournaments" options={{ href: null }} />
         <Tabs.Screen name="passport" options={{ href: null }} />
       <Tabs.Screen name="leaderboards" options={{ href: null }} />
-      <Tabs.Screen name="leaderboards-unified" options={{ href: null }} />
       <Tabs.Screen name="player-id-card" options={{ href: null }} />
         <Tabs.Screen name="coach-id-card" options={{ href: null }} />
         <Tabs.Screen name="host-payments" options={{ href: null }} />
