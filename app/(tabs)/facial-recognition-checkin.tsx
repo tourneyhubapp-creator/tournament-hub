@@ -1,539 +1,408 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, Text, View, Pressable, Alert, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Pressable,
+  Alert,
+  ActivityIndicator,
+  FlatList,
+  Image,
+} from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { useRouter } from "expo-router";
 
-type CheckInMode = "player_by_player" | "group_photo";
-
-interface CheckInResult {
-  athleteId: number;
-  athleteName: string;
-  team: string;
-  matchConfidence: number;
-  status: "confirmed" | "unrecognized";
-  timestamp: string;
+interface DetectedFace {
+  id: string;
+  name: string;
+  confidence: number;
+  playerId: string;
+  verified: boolean;
+  checkInTime?: string;
 }
 
-export default function FacialRecognitionCheckinScreen() {
+interface CheckInRecord {
+  playerId: string;
+  playerName: string;
+  checkInTime: string;
+  mode: "individual" | "group";
+  confidence: number;
+  verified: boolean;
+}
+
+export default function FacialRecognitionCheckInScreen() {
   const colors = useColors();
   const router = useRouter();
-  const { tournamentId } = useLocalSearchParams();
   
-  const [mode, setMode] = useState<CheckInMode>("player_by_player");
-  const [isCameraActive, setIsCameraActive] = useState(false);
+  const [mode, setMode] = useState<"individual" | "group">("individual");
   const [isScanning, setIsScanning] = useState(false);
-  const [checkInResults, setCheckInResults] = useState<CheckInResult[]>([]);
-  const [showResults, setShowResults] = useState(false);
+  const [detectedFaces, setDetectedFaces] = useState<DetectedFace[]>([]);
+  const [checkInRecords, setCheckInRecords] = useState<CheckInRecord[]>([]);
+  const [cameraPermission, setCameraPermission] = useState<boolean | null>(null);
 
-  // Mock data for demonstration
-  const mockAthletes = [
-    { id: 1, name: "Marcus Johnson", team: "Texas Elite 7v7", confidence: 0.98 },
-    { id: 2, name: "Jake Williams", team: "Lone Star Ballers", confidence: 0.95 },
-    { id: 3, name: "Tyler Brown", team: "Gulf Coast Warriors", confidence: 0.92 },
-  ];
+  useEffect(() => {
+    // Check camera permissions
+    checkCameraPermission();
+  }, []);
 
-  const handleStartScan = () => {
-    setIsCameraActive(true);
+  const checkCameraPermission = async () => {
+    // Placeholder for camera permission check
+    // In production, use expo-camera or react-native-camera
+    setCameraPermission(true);
+  };
+
+  const startScan = async () => {
+    if (!cameraPermission) {
+      Alert.alert("Permission Denied", "Camera access is required for facial recognition.");
+      return;
+    }
+
     setIsScanning(true);
-    
-    // Simulate facial recognition scanning
+    setDetectedFaces([]);
+
+    // Simulate facial recognition scan
     setTimeout(() => {
-      if (mode === "player_by_player") {
-        const result: CheckInResult = {
-          athleteId: mockAthletes[0].id,
-          athleteName: mockAthletes[0].name,
-          team: mockAthletes[0].team,
-          matchConfidence: mockAthletes[0].confidence,
-          status: "confirmed",
-          timestamp: new Date().toLocaleTimeString(),
-        };
-        setCheckInResults([result]);
-        setShowResults(true);
-        setIsScanning(false);
+      if (mode === "individual") {
+        // Simulate single face detection
+        setDetectedFaces([
+          {
+            id: "face_1",
+            name: "Dakota Gooden",
+            confidence: 0.98,
+            playerId: "PLAYER_001",
+            verified: true,
+            checkInTime: new Date().toLocaleTimeString(),
+          },
+        ]);
+      } else {
+        // Simulate group photo detection (multiple faces)
+        setDetectedFaces([
+          {
+            id: "face_1",
+            name: "Dakota Gooden",
+            confidence: 0.98,
+            playerId: "PLAYER_001",
+            verified: true,
+            checkInTime: new Date().toLocaleTimeString(),
+          },
+          {
+            id: "face_2",
+            name: "Jake Williams",
+            confidence: 0.95,
+            playerId: "PLAYER_002",
+            verified: true,
+            checkInTime: new Date().toLocaleTimeString(),
+          },
+          {
+            id: "face_3",
+            name: "Tyler Brown",
+            confidence: 0.92,
+            playerId: "PLAYER_003",
+            verified: true,
+            checkInTime: new Date().toLocaleTimeString(),
+          },
+        ]);
       }
+      setIsScanning(false);
     }, 2000);
   };
 
-  const handleGroupPhotoCapture = () => {
-    setIsScanning(true);
-    
-    // Simulate group photo facial recognition
-    setTimeout(() => {
-      const results: CheckInResult[] = mockAthletes.map((athlete) => ({
-        athleteId: athlete.id,
-        athleteName: athlete.name,
-        team: athlete.team,
-        matchConfidence: athlete.confidence,
-        status: athlete.confidence > 0.9 ? "confirmed" : "unrecognized",
-        timestamp: new Date().toLocaleTimeString(),
-      }));
-      setCheckInResults(results);
-      setShowResults(true);
-      setIsScanning(false);
-      setIsCameraActive(false);
-    }, 2500);
+  const confirmCheckIn = (face: DetectedFace) => {
+    if (face.confidence < 0.85) {
+      Alert.alert(
+        "Low Confidence",
+        `Confidence level is ${(face.confidence * 100).toFixed(0)}%. Please try again or verify manually.`
+      );
+      return;
+    }
+
+    const record: CheckInRecord = {
+      playerId: face.playerId,
+      playerName: face.name,
+      checkInTime: new Date().toLocaleTimeString(),
+      mode,
+      confidence: face.confidence,
+      verified: true,
+    };
+
+    setCheckInRecords([...checkInRecords, record]);
+    setDetectedFaces(detectedFaces.filter((f) => f.id !== face.id));
+    Alert.alert("Success", `${face.name} checked in successfully!`);
   };
 
-  const handleCancel = () => {
-    setIsCameraActive(false);
-    setShowResults(false);
-    setCheckInResults([]);
-    setIsScanning(false);
+  const rejectFace = (faceId: string) => {
+    setDetectedFaces(detectedFaces.filter((f) => f.id !== faceId));
   };
 
-  const handleRetry = () => {
-    setShowResults(false);
-    setCheckInResults([]);
-    handleStartScan();
-  };
-
-  if (isCameraActive && !showResults) {
-    return (
-      <ScreenContainer className="bg-black flex-1 p-0">
-        <View style={{ flex: 1, backgroundColor: "#000", justifyContent: "center", alignItems: "center" }}>
-          {/* Camera Viewfinder Placeholder */}
-          <View
-            style={{
-              width: "100%",
-              height: "70%",
-              backgroundColor: "#1a1a1a",
-              borderWidth: 2,
-              borderColor: "#39FF14",
-              borderRadius: 16,
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: 24,
-            }}
-          >
-            {isScanning ? (
-              <View style={{ alignItems: "center", gap: 16 }}>
-                <ActivityIndicator size={48} color="#39FF14" />
-                <Text style={{ color: "#39FF14", fontSize: 14, fontWeight: "600" }}>
-                  {mode === "player_by_player" ? "Scanning face..." : "Detecting faces..."}
-                </Text>
-              </View>
-            ) : (
-              <View style={{ alignItems: "center", gap: 12 }}>
-                <View
-                  style={{
-                    width: 120,
-                    height: 120,
-                    borderRadius: 60,
-                    borderWidth: 3,
-                    borderColor: "#39FF14",
-                  }}
-                />
-                <Text style={{ color: "#AAA", fontSize: 12, textAlign: "center" }}>
-                  {mode === "player_by_player"
-                    ? "Position face in circle"
-                    : "Frame entire team in view"}
-                </Text>
-              </View>
-            )}
-          </View>
-
-          {/* Mode Indicator */}
-          <Text style={{ color: "#39FF14", fontSize: 13, fontWeight: "600", marginBottom: 16 }}>
-            {mode === "player_by_player" ? "Player-by-Player Scan" : "Team Group Photo"}
+  const renderDetectedFace = ({ item }: { item: DetectedFace }) => (
+    <View
+      style={{
+        backgroundColor: "#1a1a1a",
+        borderRadius: 12,
+        padding: 16,
+        marginBottom: 12,
+        borderLeftWidth: 4,
+        borderLeftColor: item.confidence > 0.9 ? "#39FF14" : "#FFB800",
+      }}
+    >
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+        <View>
+          <Text style={{ fontSize: 16, fontWeight: "700", color: "#FFF", marginBottom: 4 }}>
+            {item.name}
           </Text>
-
-          {/* Action Buttons */}
-          <View style={{ flexDirection: "row", gap: 12, width: "100%", paddingHorizontal: 16 }}>
-            <Pressable
-              onPress={handleCancel}
-              style={{
-                flex: 1,
-                paddingVertical: 12,
-                backgroundColor: "#333",
-                borderRadius: 10,
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ color: "#FFF", fontWeight: "600" }}>Cancel</Text>
-            </Pressable>
-            <Pressable
-              onPress={mode === "player_by_player" ? handleStartScan : handleGroupPhotoCapture}
-              disabled={isScanning}
-              style={{
-                flex: 1,
-                paddingVertical: 12,
-                backgroundColor: isScanning ? "#39FF1466" : "#39FF14",
-                borderRadius: 10,
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ color: "#000", fontWeight: "700" }}>
-                {isScanning ? "Scanning..." : mode === "player_by_player" ? "Scan" : "Capture"}
-              </Text>
-            </Pressable>
-          </View>
+          <Text style={{ fontSize: 12, color: "#AAA" }}>
+            Confidence: {(item.confidence * 100).toFixed(0)}%
+          </Text>
         </View>
-      </ScreenContainer>
-    );
-  }
+        <View
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+            backgroundColor: item.confidence > 0.9 ? "#39FF14" : "#FFB800",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <IconSymbol name="checkmark.circle.fill" size={24} color="#000" />
+        </View>
+      </View>
 
-  if (showResults) {
-    return (
-      <ScreenContainer className="bg-black flex-1 p-0">
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="bg-black">
-          {/* Header */}
-          <View style={{ paddingHorizontal: 16, paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: "#333" }}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 12 }}>
-              <Pressable onPress={handleCancel}>
-                <IconSymbol name="chevron.left" size={24} color="#39FF14" />
-              </Pressable>
-              <Text style={{ fontSize: 20, fontWeight: "700", color: "#FFF", flex: 1 }}>
-                Check-In Results
-              </Text>
-            </View>
-            <Text style={{ fontSize: 13, color: "#AAA" }}>
-              {checkInResults.length} athlete{checkInResults.length !== 1 ? "s" : ""} detected
-            </Text>
-          </View>
+      <View style={{ flexDirection: "row", gap: 8 }}>
+        <Pressable
+          onPress={() => confirmCheckIn(item)}
+          style={{
+            flex: 1,
+            backgroundColor: "#39FF14",
+            borderRadius: 8,
+            padding: 10,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 13, fontWeight: "600", color: "#000" }}>
+            Confirm
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={() => rejectFace(item.id)}
+          style={{
+            flex: 1,
+            backgroundColor: "#333",
+            borderRadius: 8,
+            padding: 10,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 13, fontWeight: "600", color: "#FFF" }}>
+            Reject
+          </Text>
+        </Pressable>
+      </View>
+    </View>
+  );
 
-          {/* Results List */}
-          <View style={{ paddingHorizontal: 16, paddingVertical: 16, gap: 12 }}>
-            {checkInResults.map((result, idx) => (
-              <View
-                key={idx}
-                style={{
-                  backgroundColor: "#1a1a1a",
-                  borderWidth: 1,
-                  borderColor: result.status === "confirmed" ? "#39FF14" : "#FF6B6B",
-                  borderRadius: 12,
-                  padding: 14,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                {/* Status Indicator */}
-                <View
-                  style={{
-                    width: 12,
-                    height: 12,
-                    borderRadius: 6,
-                    backgroundColor: result.status === "confirmed" ? "#39FF14" : "#FF6B6B",
-                  }}
-                />
+  const renderCheckInRecord = ({ item }: { item: CheckInRecord }) => (
+    <View
+      style={{
+        backgroundColor: "#1a1a1a",
+        borderRadius: 12,
+        padding: 12,
+        marginBottom: 8,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <View>
+        <Text style={{ fontSize: 14, fontWeight: "600", color: "#FFF", marginBottom: 4 }}>
+          {item.playerName}
+        </Text>
+        <Text style={{ fontSize: 11, color: "#AAA" }}>
+          {item.checkInTime} • {item.mode === "individual" ? "Single Scan" : "Group Photo"}
+        </Text>
+      </View>
+      <View style={{ alignItems: "center" }}>
+        <IconSymbol name="checkmark.circle.fill" size={20} color="#39FF14" />
+        <Text style={{ fontSize: 10, color: "#39FF14", marginTop: 2 }}>
+          {(item.confidence * 100).toFixed(0)}%
+        </Text>
+      </View>
+    </View>
+  );
 
-                {/* Athlete Info */}
-                <View style={{ flex: 1 }}>
-                  <Text style={{ fontSize: 14, fontWeight: "700", color: "#FFF", marginBottom: 4 }}>
-                    {result.athleteName}
-                  </Text>
-                  <Text style={{ fontSize: 12, color: "#AAA", marginBottom: 4 }}>
-                    {result.team}
-                  </Text>
-                  <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-                    <Text style={{ fontSize: 11, color: "#39FF14", fontWeight: "600" }}>
-                      {(result.matchConfidence * 100).toFixed(0)}% match
-                    </Text>
-                    <Text style={{ fontSize: 11, color: "#666" }}>
-                      • {result.timestamp}
-                    </Text>
-                  </View>
-                </View>
-
-                {/* Status Badge */}
-                <View
-                  style={{
-                    paddingVertical: 6,
-                    paddingHorizontal: 10,
-                    backgroundColor: result.status === "confirmed" ? "rgba(57, 255, 20, 0.1)" : "rgba(255, 107, 107, 0.1)",
-                    borderRadius: 6,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 11,
-                      fontWeight: "600",
-                      color: result.status === "confirmed" ? "#39FF14" : "#FF6B6B",
-                    }}
-                  >
-                    {result.status === "confirmed" ? "✓ Confirmed" : "? Unrecognized"}
-                  </Text>
-                </View>
-              </View>
-            ))}
-          </View>
-
-          {/* Unrecognized Athletes */}
-          {checkInResults.some((r) => r.status === "unrecognized") && (
-            <View style={{ paddingHorizontal: 16, paddingVertical: 12, gap: 10 }}>
-              <Text style={{ fontSize: 13, fontWeight: "700", color: "#AAA", textTransform: "uppercase" }}>
-                Unrecognized Athletes
-              </Text>
-              {checkInResults
-                .filter((r) => r.status === "unrecognized")
-                .map((result, idx) => (
-                  <View
-                    key={idx}
-                    style={{
-                      backgroundColor: "#1a1a1a",
-                      borderWidth: 1,
-                      borderColor: "#333",
-                      borderRadius: 10,
-                      padding: 12,
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <View>
-                      <Text style={{ fontSize: 13, fontWeight: "600", color: "#FFF", marginBottom: 4 }}>
-                        {result.athleteName}
-                      </Text>
-                      <Text style={{ fontSize: 11, color: "#AAA" }}>
-                        {result.team}
-                      </Text>
-                    </View>
-                    <View style={{ flexDirection: "row", gap: 8 }}>
-                      <Pressable
-                        style={{
-                          paddingVertical: 6,
-                          paddingHorizontal: 10,
-                          backgroundColor: "#333",
-                          borderRadius: 6,
-                        }}
-                      >
-                        <Text style={{ fontSize: 11, fontWeight: "600", color: "#FFF" }}>
-                          Retry
-                        </Text>
-                      </Pressable>
-                      <Pressable
-                        style={{
-                          paddingVertical: 6,
-                          paddingHorizontal: 10,
-                          backgroundColor: "#39FF14",
-                          borderRadius: 6,
-                        }}
-                      >
-                        <Text style={{ fontSize: 11, fontWeight: "600", color: "#000" }}>
-                          Manual
-                        </Text>
-                      </Pressable>
-                    </View>
-                  </View>
-                ))}
-            </View>
-          )}
-
-          {/* Action Buttons */}
-          <View style={{ paddingHorizontal: 16, paddingVertical: 16, gap: 10 }}>
-            <Pressable
-              onPress={handleRetry}
-              style={{
-                paddingVertical: 12,
-                backgroundColor: "#333",
-                borderRadius: 10,
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 14, fontWeight: "700", color: "#FFF" }}>
-                Scan Another
-              </Text>
-            </Pressable>
-            <Pressable
-              onPress={handleCancel}
-              style={{
-                paddingVertical: 12,
-                backgroundColor: "#39FF14",
-                borderRadius: 10,
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 14, fontWeight: "700", color: "#000" }}>
-                ✓ Complete Check-In
-              </Text>
-            </Pressable>
-          </View>
-
-          {/* Footer */}
-          <View style={{ paddingHorizontal: 16, paddingVertical: 12, alignItems: "center" }}>
-            <Text style={{ fontSize: 11, color: "#666" }}>
-              Powered by Facial Recognition
-            </Text>
-          </View>
-        </ScrollView>
-      </ScreenContainer>
-    );
-  }
-
-  // Main Screen - Mode Selection
   return (
     <ScreenContainer className="bg-black flex-1 p-0">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="bg-black">
         {/* Header */}
         <View style={{ paddingHorizontal: 16, paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: "#333" }}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 12 }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 16 }}>
             <Pressable onPress={() => router.back()}>
               <IconSymbol name="chevron.left" size={24} color="#39FF14" />
             </Pressable>
-            <Text style={{ fontSize: 20, fontWeight: "700", color: "#FFF", flex: 1 }}>
-              Facial Recognition Check-In
-            </Text>
+            <View>
+              <Text style={{ fontSize: 18, fontWeight: "700", color: "#FFF" }}>
+                Facial Recognition Check-In
+              </Text>
+              <Text style={{ fontSize: 12, color: "#AAA", marginTop: 2 }}>
+                Verify player identity in real-time
+              </Text>
+            </View>
           </View>
-          <Text style={{ fontSize: 13, color: "#AAA" }}>
-            Tournament ID: {tournamentId || "N/A"}
-          </Text>
-        </View>
 
-        {/* Mode Selection */}
-        <View style={{ paddingHorizontal: 16, paddingVertical: 20, gap: 12 }}>
-          <Text style={{ fontSize: 13, fontWeight: "700", color: "#888", textTransform: "uppercase", letterSpacing: 0.5 }}>
-            Select Check-In Mode
-          </Text>
-
-          {/* Player-by-Player Mode */}
-          <Pressable
-            onPress={() => {
-              setMode("player_by_player");
-              handleStartScan();
-            }}
-            style={{
-              backgroundColor: mode === "player_by_player" ? "#39FF14" : "#1a1a1a",
-              borderWidth: mode === "player_by_player" ? 0 : 1,
-              borderColor: "#333",
-              borderRadius: 14,
-              padding: 16,
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 14,
-            }}
-          >
-            <View
+          {/* Mode Selector */}
+          <View style={{ flexDirection: "row", gap: 8 }}>
+            <Pressable
+              onPress={() => setMode("individual")}
               style={{
-                width: 48,
-                height: 48,
-                borderRadius: 12,
-                backgroundColor: mode === "player_by_player" ? "rgba(0, 0, 0, 0.2)" : "#333",
+                flex: 1,
+                backgroundColor: mode === "individual" ? "#39FF14" : "#333",
+                borderRadius: 8,
+                padding: 12,
                 alignItems: "center",
-                justifyContent: "center",
               }}
             >
-              <IconSymbol
-                name="person.fill"
-                size={24}
-                color={mode === "player_by_player" ? "#000" : "#39FF14"}
-              />
-            </View>
-            <View style={{ flex: 1 }}>
               <Text
                 style={{
-                  fontSize: 15,
-                  fontWeight: "700",
-                  color: mode === "player_by_player" ? "#000" : "#FFF",
-                  marginBottom: 4,
+                  fontSize: 13,
+                  fontWeight: "600",
+                  color: mode === "individual" ? "#000" : "#FFF",
                 }}
               >
-                Player-by-Player Scan
+                Individual Scan
               </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: mode === "player_by_player" ? "rgba(0, 0, 0, 0.7)" : "#AAA",
-                }}
-              >
-                Scan individual athletes one at a time
-              </Text>
-            </View>
-            <IconSymbol
-              name="chevron.right"
-              size={20}
-              color={mode === "player_by_player" ? "#000" : "#666"}
-            />
-          </Pressable>
-
-          {/* Team Group Photo Mode */}
-          <Pressable
-            onPress={() => {
-              setMode("group_photo");
-              handleStartScan();
-            }}
-            style={{
-              backgroundColor: mode === "group_photo" ? "#39FF14" : "#1a1a1a",
-              borderWidth: mode === "group_photo" ? 0 : 1,
-              borderColor: "#333",
-              borderRadius: 14,
-              padding: 16,
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 14,
-            }}
-          >
-            <View
+            </Pressable>
+            <Pressable
+              onPress={() => setMode("group")}
               style={{
-                width: 48,
-                height: 48,
-                borderRadius: 12,
-                backgroundColor: mode === "group_photo" ? "rgba(0, 0, 0, 0.2)" : "#333",
+                flex: 1,
+                backgroundColor: mode === "group" ? "#39FF14" : "#333",
+                borderRadius: 8,
+                padding: 12,
                 alignItems: "center",
-                justifyContent: "center",
               }}
             >
-              <IconSymbol
-                name="person.2.fill"
-                size={24}
-                color={mode === "group_photo" ? "#000" : "#39FF14"}
-              />
-            </View>
-            <View style={{ flex: 1 }}>
               <Text
                 style={{
-                  fontSize: 15,
-                  fontWeight: "700",
-                  color: mode === "group_photo" ? "#000" : "#FFF",
-                  marginBottom: 4,
+                  fontSize: 13,
+                  fontWeight: "600",
+                  color: mode === "group" ? "#000" : "#FFF",
                 }}
               >
-                Team Group Photo
+                Group Photo
               </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: mode === "group_photo" ? "rgba(0, 0, 0, 0.7)" : "#AAA",
-                }}
-              >
-                Scan entire team in one photo
-              </Text>
-            </View>
-            <IconSymbol
-              name="chevron.right"
-              size={20}
-              color={mode === "group_photo" ? "#000" : "#666"}
-            />
-          </Pressable>
+            </Pressable>
+          </View>
         </View>
 
-        {/* Info Section */}
-        <View style={{ paddingHorizontal: 16, paddingVertical: 16, gap: 12 }}>
+        {/* Camera/Scan Area */}
+        <View style={{ paddingHorizontal: 16, paddingVertical: 16 }}>
           <View
             style={{
-              backgroundColor: "rgba(57, 255, 20, 0.05)",
-              borderWidth: 1,
-              borderColor: "rgba(57, 255, 20, 0.2)",
+              backgroundColor: "#1a1a1a",
               borderRadius: 12,
-              padding: 14,
+              borderWidth: 2,
+              borderColor: "#39FF14",
+              borderStyle: "dashed",
+              padding: 24,
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: 200,
             }}
           >
-            <Text style={{ fontSize: 13, fontWeight: "600", color: "#39FF14", marginBottom: 8 }}>
-              ℹ️ How It Works
-            </Text>
-            <Text style={{ fontSize: 12, color: "#AAA", lineHeight: 18 }}>
-              Athletes must have a verified Player ID Card with a headshot on file. Our facial recognition system will instantly match faces to stored photos for fast, secure check-in.
-            </Text>
+            {isScanning ? (
+              <>
+                <ActivityIndicator size="large" color="#39FF14" />
+                <Text style={{ fontSize: 14, color: "#AAA", marginTop: 16 }}>
+                  Scanning for faces...
+                </Text>
+              </>
+            ) : (
+              <>
+                <IconSymbol name="camera.fill" size={48} color="#39FF14" />
+                <Text style={{ fontSize: 14, color: "#FFF", marginTop: 12, fontWeight: "600" }}>
+                  {mode === "individual" ? "Position face in frame" : "Position group in frame"}
+                </Text>
+                <Text style={{ fontSize: 12, color: "#AAA", marginTop: 8, textAlign: "center" }}>
+                  {mode === "individual"
+                    ? "Ensure good lighting and face is clearly visible"
+                    : "All players should be visible and facing camera"}
+                </Text>
+              </>
+            )}
           </View>
+
+          <Pressable
+            onPress={startScan}
+            disabled={isScanning}
+            style={{
+              backgroundColor: isScanning ? "#666" : "#39FF14",
+              borderRadius: 12,
+              padding: 14,
+              alignItems: "center",
+              marginTop: 16,
+            }}
+          >
+            <Text style={{ fontSize: 16, fontWeight: "700", color: "#000" }}>
+              {isScanning ? "Scanning..." : "Start Scan"}
+            </Text>
+          </Pressable>
         </View>
 
-        {/* Footer */}
-        <View style={{ paddingHorizontal: 16, paddingVertical: 12, alignItems: "center" }}>
-          <Text style={{ fontSize: 11, color: "#666" }}>
-            Powered by Facial Recognition
-          </Text>
-        </View>
+        {/* Detected Faces */}
+        {detectedFaces.length > 0 && (
+          <View style={{ paddingHorizontal: 16, paddingVertical: 16, borderTopWidth: 1, borderTopColor: "#333" }}>
+            <Text style={{ fontSize: 14, fontWeight: "700", color: "#FFF", marginBottom: 12 }}>
+              Detected Faces ({detectedFaces.length})
+            </Text>
+            <FlatList
+              data={detectedFaces}
+              renderItem={renderDetectedFace}
+              keyExtractor={(item) => item.id}
+              scrollEnabled={false}
+            />
+          </View>
+        )}
+
+        {/* Check-In Records */}
+        {checkInRecords.length > 0 && (
+          <View style={{ paddingHorizontal: 16, paddingVertical: 16, borderTopWidth: 1, borderTopColor: "#333" }}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+              <Text style={{ fontSize: 14, fontWeight: "700", color: "#FFF" }}>
+                Checked In ({checkInRecords.length})
+              </Text>
+              <View
+                style={{
+                  backgroundColor: "#39FF14",
+                  borderRadius: 20,
+                  paddingHorizontal: 8,
+                  paddingVertical: 4,
+                }}
+              >
+                <Text style={{ fontSize: 11, fontWeight: "600", color: "#000" }}>
+                  {checkInRecords.length}
+                </Text>
+              </View>
+            </View>
+            <FlatList
+              data={checkInRecords}
+              renderItem={renderCheckInRecord}
+              keyExtractor={(item, index) => `${item.playerId}_${index}`}
+              scrollEnabled={false}
+            />
+          </View>
+        )}
+
+        {/* Empty State */}
+        {detectedFaces.length === 0 && checkInRecords.length === 0 && !isScanning && (
+          <View style={{ paddingHorizontal: 16, paddingVertical: 32, alignItems: "center" }}>
+            <IconSymbol name="face.smiling.fill" size={48} color="#39FF14" />
+            <Text style={{ fontSize: 14, color: "#AAA", marginTop: 16, textAlign: "center" }}>
+              No faces detected yet. Start a scan to begin check-in.
+            </Text>
+          </View>
+        )}
       </ScrollView>
     </ScreenContainer>
   );

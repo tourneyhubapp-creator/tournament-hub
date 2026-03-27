@@ -116,3 +116,85 @@
 - [x] Change #1 player name from "Marcus Johnson" to "Dakota"
 - [x] Keep rank, pass yards, and styling consistent
 - [x] Test all screens for proper display
+
+
+## Phase 10 — Comprehensive Update (Current)
+
+### Branding Cleanup
+- [x] Remove "Mississippi Heat" from home screen title
+- [x] Remove "Mississippi Heat" from app.config.ts appName
+- [x] Remove Mississippi Heat logo from assets/images
+- [x] Update app name to "Tournament Hub"
+- [x] Remove Mississippi Heat references from all UI text
+- [x] Update splash screen branding
+- [x] Remove Mississippi Heat from database seed data
+- [x] Update theme colors to neutral palette
+
+### Name Updates
+- [x] Replace "Dakota" with "Dakota Gooden" in home screen leaderboard
+- [x] Update database seed data with "Dakota Gooden"
+- [x] Search and replace all instances of "Dakota" in codebase
+- [x] Update player profile displays
+
+### Facial Recognition Restoration & Enhancement
+- [x] Restore facial recognition check-in screen
+- [x] Implement individual player check-in mode
+- [x] Implement group photo check-in mode
+- [x] Integrate with Player ID Cards for validation
+- [x] Add facial recognition to Host Console (Profile tab)
+- [ ] Create facial recognition API endpoints
+- [ ] Add real-time face detection and matching
+
+### Staff Check-In Permissions System
+- [ ] Create staff invitation system
+- [ ] Build permissions management UI for Hosts/Admins
+- [ ] Implement permission validation for check-in operations
+- [ ] Create invitation notification system
+- [ ] Add permission revocation functionality
+- [ ] Integrate with facial recognition feature
+
+### Coach Role Implementation
+- [ ] Add "coach" to users table role enum
+- [ ] Create coachProfiles table in database
+- [ ] Add "coach" to role selector in app
+- [ ] Create coach-specific tab layout with 4 main tabs
+- [ ] Build Coach Home screen
+- [ ] Build Coach Tournaments screen
+- [ ] Build Coach Leaderboards screen
+- [ ] Build Coach Profile screen
+- [ ] Update role context to support coach role
+
+### Coach Roster & Player Management
+- [ ] Create roster management screen
+- [ ] Display player check-in status
+- [ ] Display Player ID Card status
+- [ ] Show player statistics and performance
+- [ ] Add player filtering and search
+- [ ] Create player detail view
+- [ ] Implement roster editing capabilities
+
+### Coach Tournament Visibility
+- [ ] Create game schedules view
+- [ ] Create playoff brackets view
+- [ ] Display team seeding information
+- [ ] Show bracket progression
+- [ ] Implement bracket auto-population logic
+- [ ] Add game result tracking
+
+### Coach Team Management Tools
+- [ ] Create team logo upload interface
+- [ ] Implement tournament entry fee payment
+- [ ] Create waiver confirmation system
+- [ ] Add waiver download functionality
+- [ ] Build team settings management
+- [ ] Create team member invitation system
+
+### System Integration & Testing
+- [ ] Verify all role-based permissions work correctly
+- [ ] Test facial recognition with Player ID Cards
+- [ ] Test staff permissions and check-in flow
+- [ ] Verify coach features across all screens
+- [ ] Test data consistency across roles
+- [ ] Validate API integration
+- [ ] Run TypeScript type checking
+- [ ] Test all user flows end-to-end

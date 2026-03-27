@@ -202,6 +202,7 @@ export default function ProfileScreen() {
             <Text style={{ fontSize: 13, fontWeight: "700", color: colors.muted, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 }}>Host Console</Text>
             <MenuItem icon="chart.bar.fill" label="Tournament Dashboard" />
             <MenuItem icon="person.2.fill" label="Invite Team Members" />
+            <MenuItem icon="camera.fill" label="Facial Recognition Check-In" />
           </View>
         )}
 

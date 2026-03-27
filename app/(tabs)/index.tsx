@@ -57,7 +57,7 @@ export default function HomeScreen() {
   ];
 
   const topPlayers = [
-    { rank: 1, name: "Dakota", stat: "2,840 Pass Yards" },
+    { rank: 1, name: "Dakota Gooden", stat: "2,840 Pass Yards" },
     { rank: 2, name: "Jake Williams", stat: "2,650 Pass Yards" },
     { rank: 3, name: "Tyler Brown", stat: "2,520 Pass Yards" },
   ];
@@ -92,10 +92,10 @@ export default function HomeScreen() {
             </View>
             <View>
               <Text style={{ fontSize: 16, fontWeight: "700", color: "#39FF14", letterSpacing: 0.5 }}>
-                MISSISSIPPI HEAT
+                TOURNAMENT HUB
               </Text>
               <Text style={{ fontSize: 12, color: "#AAA", marginTop: 2 }}>
-                7on7 Football Elite
+                Elite Sports Platform
               </Text>
             </View>
           </View>
@@ -229,42 +229,6 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Facial Recognition Check-In */}
-        <View style={{ paddingHorizontal: 16, paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: "#333" }}>
-          <Pressable
-            onPress={() => router.push("/facial-recognition-checkin")}
-            style={{
-              backgroundColor: "#39FF14",
-              borderRadius: 12,
-              padding: 14,
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 12,
-            }}
-          >
-            <View
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 10,
-                backgroundColor: "rgba(0, 0, 0, 0.2)",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <IconSymbol name="face.smiling.fill" size={20} color="#000" />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={{ fontSize: 14, fontWeight: "700", color: "#000", marginBottom: 2 }}>
-                Facial Recognition Check-In
-              </Text>
-              <Text style={{ fontSize: 11, color: "rgba(0, 0, 0, 0.7)" }}>
-                Fast athlete verification
-              </Text>
-            </View>
-            <IconSymbol name="chevron.right" size={20} color="#000" />
-          </Pressable>
-        </View>
 
         {/* Top National Players */}
         <View style={{ paddingHorizontal: 16, paddingVertical: 16 }}>
