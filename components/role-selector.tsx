@@ -4,8 +4,9 @@ import { useTournament, type UserRole } from "@/lib/tournament-context";
 import { IconSymbol } from "./ui/icon-symbol";
 import { useColors } from "@/hooks/use-colors";
 
-const ROLES: { role: UserRole; label: string; icon: "figure.run" | "building.2.fill" | "crown.fill"; description: string }[] = [
+const ROLES: { role: UserRole; label: string; icon: "figure.run" | "person.fill" | "building.2.fill" | "crown.fill"; description: string }[] = [
   { role: "athlete", label: "Athlete", icon: "figure.run", description: "View profile, passport & rankings" },
+  { role: "coach", label: "Coach", icon: "person.fill", description: "Manage roster & tournaments" },
   { role: "host", label: "Host", icon: "building.2.fill", description: "Manage tournaments & teams" },
   { role: "admin", label: "Admin", icon: "crown.fill", description: "Platform management & oversight" },
 ];

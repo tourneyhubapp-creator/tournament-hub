@@ -22,6 +22,39 @@ export default function TabLayout() {
     borderTopWidth: 0.5,
   };
 
+  if (activeRole === "coach") {
+    return (
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: colors.tint,
+          headerShown: false,
+          tabBarButton: HapticTab,
+          tabBarStyle,
+        }}
+      >
+        <Tabs.Screen name="index" options={{ title: "Home", tabBarIcon: ({ color }) => <IconSymbol size={26} name="house.fill" color={color} /> }} />
+        <Tabs.Screen name="host-tournaments" options={{ title: "Tournaments", tabBarIcon: ({ color }) => <IconSymbol size={26} name="trophy.fill" color={color} /> }} />
+        <Tabs.Screen name="leaderboards-unified" options={{ title: "Leaderboards", tabBarIcon: ({ color }) => <IconSymbol size={26} name="list.number" color={color} /> }} />
+        <Tabs.Screen name="profile" options={{ title: "Profile", tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.fill" color={color} /> }} />
+        {/* Hide all other tabs */}
+        <Tabs.Screen name="feed" options={{ href: null }} />
+        <Tabs.Screen name="rankings" options={{ href: null }} />
+        <Tabs.Screen name="tournaments" options={{ href: null }} />
+        <Tabs.Screen name="passport" options={{ href: null }} />
+        <Tabs.Screen name="leaderboards" options={{ href: null }} />
+        <Tabs.Screen name="player-id-card" options={{ href: null }} />
+        <Tabs.Screen name="coach-id-card" options={{ href: null }} />
+        <Tabs.Screen name="host-teams" options={{ href: null }} />
+        <Tabs.Screen name="host-payments" options={{ href: null }} />
+        <Tabs.Screen name="admin-dashboard" options={{ href: null }} />
+        <Tabs.Screen name="admin-users" options={{ href: null }} />
+        <Tabs.Screen name="admin-payments" options={{ href: null }} />
+        <Tabs.Screen name="admin-content" options={{ href: null }} />
+        <Tabs.Screen name="facial-recognition-checkin" options={{ href: null }} />
+      </Tabs>
+    );
+  }
+
   if (activeRole === "host") {
     return (
       <Tabs
@@ -50,6 +83,7 @@ export default function TabLayout() {
         <Tabs.Screen name="admin-users" options={{ href: null }} />
         <Tabs.Screen name="admin-payments" options={{ href: null }} />
         <Tabs.Screen name="admin-content" options={{ href: null }} />
+        <Tabs.Screen name="facial-recognition-checkin" options={{ href: null }} />
       </Tabs>
     );
   }
@@ -80,6 +114,7 @@ export default function TabLayout() {
         <Tabs.Screen name="host-teams" options={{ href: null }} />
         <Tabs.Screen name="host-payments" options={{ href: null }} />
         <Tabs.Screen name="admin-content" options={{ href: null }} />
+        <Tabs.Screen name="facial-recognition-checkin" options={{ href: null }} />
       </Tabs>
     );
   }
@@ -112,6 +147,7 @@ export default function TabLayout() {
       <Tabs.Screen name="admin-users" options={{ href: null }} />
       <Tabs.Screen name="admin-payments" options={{ href: null }} />
       <Tabs.Screen name="admin-content" options={{ href: null }} />
+      <Tabs.Screen name="facial-recognition-checkin" options={{ href: null }} />
     </Tabs>
   );
 }

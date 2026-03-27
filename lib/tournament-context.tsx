@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export type UserRole = "athlete" | "host" | "admin";
+export type UserRole = "athlete" | "coach" | "host" | "admin";
 
 export interface TournamentUser {
   id: number;
@@ -37,7 +37,7 @@ export function TournamentProvider({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
     AsyncStorage.getItem("activeRole").then((role) => {
-      if (role === "athlete" || role === "host" || role === "admin") {
+      if (role === "athlete" || role === "coach" || role === "host" || role === "admin") {
         setActiveRole(role);
       }
       setIsLoading(false);

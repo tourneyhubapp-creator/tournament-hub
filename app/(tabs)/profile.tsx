@@ -100,8 +100,8 @@ export default function ProfileScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [activeIDCard, setActiveIDCard] = useState<"player" | "coach">("player");
 
-  const roleLabel = activeRole === "athlete" ? "Athlete" : activeRole === "host" ? "Tournament Host" : "Platform Admin";
-  const roleBadgeVariant = activeRole === "admin" ? "accent" : activeRole === "host" ? "primary" : "success";
+  const roleLabel = activeRole === "athlete" ? "Athlete" : activeRole === "coach" ? "Coach" : activeRole === "host" ? "Tournament Host" : "Platform Admin";
+  const roleBadgeVariant = activeRole === "admin" ? "accent" : activeRole === "host" ? "primary" : activeRole === "coach" ? "warning" : "success";
 
   return (
     <ScreenContainer>
@@ -186,6 +186,16 @@ export default function ProfileScreen() {
           </View>
         )}
 
+        {activeRole === "coach" && (
+          <View style={{ marginHorizontal: 16, backgroundColor: colors.surface, borderRadius: 20, borderWidth: 1, borderColor: colors.border, flexDirection: "row", marginBottom: 20 }}>
+            <ProfileStat label="Team" value="14" />
+            <View style={{ width: 1, backgroundColor: colors.border, marginVertical: 12 }} />
+            <ProfileStat label="Players" value="28" />
+            <View style={{ width: 1, backgroundColor: colors.border, marginVertical: 12 }} />
+            <ProfileStat label="Tournaments" value="6" />
+          </View>
+        )}
+
         {activeRole === "host" && (
           <View style={{ marginHorizontal: 16, backgroundColor: colors.surface, borderRadius: 20, borderWidth: 1, borderColor: colors.border, flexDirection: "row", marginBottom: 20 }}>
             <ProfileStat label="Tournaments" value="12" />
@@ -193,6 +203,17 @@ export default function ProfileScreen() {
             <ProfileStat label="Teams Hosted" value="284" />
             <View style={{ width: 1, backgroundColor: colors.border, marginVertical: 12 }} />
             <ProfileStat label="Revenue" value="$24K" />
+          </View>
+        )}
+
+        {/* Coach - Roster & Tournament Management */}
+        {activeRole === "coach" && (
+          <View style={{ marginHorizontal: 16, marginBottom: 16, backgroundColor: colors.surface, borderRadius: 20, borderWidth: 1, borderColor: colors.border, overflow: "hidden" }}>
+            <Text style={{ fontSize: 13, fontWeight: "700", color: colors.muted, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 }}>Coach Console</Text>
+            <MenuItem icon="person.2.fill" label="Team Roster" />
+            <MenuItem icon="list.clipboard.fill" label="Player Check-In Status" />
+            <MenuItem icon="calendar" label="Game Schedules" />
+            <MenuItem icon="bracket" label="Playoff Brackets" />
           </View>
         )}
 
