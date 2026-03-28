@@ -78,19 +78,18 @@ export default function HomeScreen() {
             alignItems: "center",
           }}
         >
-          {/* Official TourneyHub Logo */}
+          {/* Official TourneyHub Logo - Full Width */}
           <Image
-            source={require("@/assets/images/icon.png")}
+            source={require("@/assets/images/logo-full.png")}
             style={{
-              width: 80,
-              height: 80,
-              marginBottom: 16,
-              borderRadius: 16,
+              width: "100%",
+              height: 120,
+              marginBottom: 24,
             }}
             resizeMode="contain"
           />
 
-          <Text style={{ fontSize: 28, fontWeight: "700", color: "#FFF", lineHeight: 36, textAlign: "center" }}>
+          <Text style={{ fontSize: 24, fontWeight: "700", color: "#FFF", lineHeight: 32, textAlign: "center" }}>
             Welcome back, Marcus
           </Text>
           <Text style={{ fontSize: 13, color: "#AAA", marginTop: 8 }}>
