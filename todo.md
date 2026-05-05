@@ -198,3 +198,36 @@
 - [ ] Validate API integration
 - [ ] Run TypeScript type checking
 - [ ] Test all user flows end-to-end
+
+
+## Phase 11 — Real Facial Recognition API & Advanced Features
+
+### Facial Recognition API Selection & Integration
+- [ ] Evaluate facial recognition services (AWS Rekognition, Google Vision, Microsoft Azure)
+- [ ] Select best option: performance, cost, ease of setup, security, privacy compliance
+- [ ] Implement chosen API integration with player ID card photos
+- [ ] Test confidence scoring accuracy (85% threshold validation)
+- [ ] Ensure COPPA compliance for minors and GDPR/CCPA for all users
+- [ ] Add data encryption for facial recognition data
+
+### Check-In Analytics Dashboard (Tournament Host Only)
+- [ ] Create analytics dashboard screen for Tournament Host profile
+- [ ] Display check-in statistics (total checked in, pending, no-shows)
+- [ ] Show staff performance metrics (checks per staff member, accuracy rate)
+- [ ] Real-time check-in status by tournament or age group
+- [ ] Add filtering by date range, tournament, and age group
+- [ ] Generate check-in reports with export functionality
+
+### Player Waiver Management System
+- [ ] Create digital waiver signing interface for players
+- [ ] Build waiver template system for Tournament Hosts
+- [ ] Implement e-signature capture with timestamp
+- [ ] Store waiver records with player profile linkage
+- [ ] Add waiver status tracking (signed/unsigned/pending)
+
+### Coach Roster Waiver Confirmation
+- [ ] Add waiver status column to Coach roster screen
+- [ ] Show signed/unsigned/pending indicators
+- [ ] Allow Coaches to view and download waiver copies
+- [ ] Add bulk waiver confirmation workflow
+- [ ] Send notifications for unsigned waivers
