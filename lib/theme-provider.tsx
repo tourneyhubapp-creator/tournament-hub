@@ -14,8 +14,8 @@ type ThemeContextValue = {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const systemScheme = useSystemColorScheme() ?? "light";
-  const [colorScheme, setColorSchemeState] = useState<ColorScheme>(systemScheme);
+  const systemScheme = useSystemColorScheme() ?? "dark";
+  const [colorScheme, setColorSchemeState] = useState<ColorScheme>("dark");
   const [isLoading, setIsLoading] = useState(true);
 
   // Load saved theme preference on mount
@@ -25,9 +25,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         const saved = await AsyncStorage.getItem("theme-preference");
         if (saved === "light" || saved === "dark") {
           setColorSchemeState(saved);
+        } else {
+          // Default to dark mode if no preference saved
+          setColorSchemeState("dark");
         }
       } catch (error) {
         console.error("Failed to load theme preference:", error);
+        // Default to dark mode on error
+        setColorSchemeState("dark");
       } finally {
         setIsLoading(false);
       }
@@ -92,7 +97,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     [colorScheme, setColorScheme],
   );
   if (isLoading) {
-    return <View style={{ flex: 1, backgroundColor: "white" }} />;
+    return <View style={{ flex: 1, backgroundColor: "#151718" }} />;
   }
 
   return (
