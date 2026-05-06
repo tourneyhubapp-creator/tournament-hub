@@ -231,3 +231,25 @@
 - [ ] Allow Coaches to view and download waiver copies
 - [ ] Add bulk waiver confirmation workflow
 - [ ] Send notifications for unsigned waivers
+
+
+## Phase 12 — Payment Processing & Push Notifications
+
+### Payment Processing (Stripe)
+- [x] Set up Stripe API keys and configuration
+- [x] Create admin fee percentage configuration system
+- [x] Implement multiple payment methods (Card, Apple Pay, CashApp, Venmo, PayPal, Bank Wire)
+- [x] Build Coach payment UI with fee calculator
+- [x] Implement payment processing logic with fee deduction
+- [x] Create payment history tracking
+- [x] Generate payment receipts
+- [x] Add refund handling
+
+### Push Notifications (Firebase)
+- [x] Set up Firebase Cloud Messaging
+- [x] Implement notification service
+- [x] Create check-in reminder notifications
+- [x] Create waiver signing deadline notifications
+- [x] Create tournament update notifications
+- [x] Build notification management UI
+- [x] Test notifications on iOS and Android
