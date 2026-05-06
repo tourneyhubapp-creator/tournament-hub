@@ -253,3 +253,33 @@
 - [x] Create tournament update notifications
 - [x] Build notification management UI
 - [x] Test notifications on iOS and Android
+
+
+## Phase 13 — Navigation Restructuring (COMPLETED)
+
+### Bottom Navigation Bar (CORE ONLY - 4 Icons)
+- [x] Remove Team Roster from bottom nav
+- [x] Remove Notifications from bottom nav
+- [x] Remove Tournament Payments from bottom nav
+- [x] Remove Check-In Summary from bottom nav
+- [x] Remove Waiver Management from bottom nav
+- [x] Remove Fee Management from bottom nav
+- [x] Remove Notification Templates from bottom nav
+- [x] Remove Payment Reconciliation from bottom nav
+- [x] Verify only 4 core icons remain: Home, Tournaments, Leaderboards, Profile
+
+### Profile Tab Restructuring
+- [x] Add Notifications Bell icon to Profile tab header
+- [x] Create Console menu structure (Coach, Host, Admin based on role)
+- [x] Move Team Roster to Coach Console
+- [x] Move Payments to Coach/Host/Admin Consoles with role-based permissions
+- [x] Move Check-In Summary to Console menus
+- [x] Move Waiver Management to Coach/Host Consoles
+- [x] Move Admin Fee Management to Admin Console
+- [x] Move Payment Reconciliation to Admin Console
+- [x] Move Notification Templates to Host/Admin Consoles
+
+### Credentials Display
+- [x] Show Coach ID only for Coach role users
+- [x] Show Player ID Card only for Athlete role users
+- [x] Display under "Your Credentials" section in Profile

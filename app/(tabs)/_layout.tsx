@@ -22,107 +22,8 @@ export default function TabLayout() {
     borderTopWidth: 0.5,
   };
 
-  if (activeRole === "coach") {
-    return (
-      <Tabs
-        screenOptions={{
-          tabBarActiveTintColor: colors.tint,
-          headerShown: false,
-          tabBarButton: HapticTab,
-          tabBarStyle,
-        }}
-      >
-        <Tabs.Screen name="index" options={{ title: "Home", tabBarIcon: ({ color }) => <IconSymbol size={26} name="house.fill" color={color} /> }} />
-        <Tabs.Screen name="host-tournaments" options={{ title: "Tournaments", tabBarIcon: ({ color }) => <IconSymbol size={26} name="trophy.fill" color={color} /> }} />
-        <Tabs.Screen name="leaderboards-unified" options={{ title: "Leaderboards", tabBarIcon: ({ color }) => <IconSymbol size={26} name="list.number" color={color} /> }} />
-        <Tabs.Screen name="profile" options={{ title: "Profile", tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.fill" color={color} /> }} />
-        {/* Hide all other tabs */}
-        <Tabs.Screen name="feed" options={{ href: null }} />
-        <Tabs.Screen name="rankings" options={{ href: null }} />
-        <Tabs.Screen name="tournaments" options={{ href: null }} />
-        <Tabs.Screen name="passport" options={{ href: null }} />
-        <Tabs.Screen name="leaderboards" options={{ href: null }} />
-        <Tabs.Screen name="player-id-card" options={{ href: null }} />
-        <Tabs.Screen name="coach-id-card" options={{ href: null }} />
-        <Tabs.Screen name="host-teams" options={{ href: null }} />
-        <Tabs.Screen name="host-payments" options={{ href: null }} />
-        <Tabs.Screen name="admin-dashboard" options={{ href: null }} />
-        <Tabs.Screen name="admin-users" options={{ href: null }} />
-        <Tabs.Screen name="admin-payments" options={{ href: null }} />
-        <Tabs.Screen name="admin-content" options={{ href: null }} />
-        <Tabs.Screen name="facial-recognition-checkin" options={{ href: null }} />
-        <Tabs.Screen name="team-rankings" options={{ href: null }} />
-      </Tabs>
-    );
-  }
-
-  if (activeRole === "host") {
-    return (
-      <Tabs
-        screenOptions={{
-          tabBarActiveTintColor: colors.tint,
-          headerShown: false,
-          tabBarButton: HapticTab,
-          tabBarStyle,
-        }}
-      >
-        <Tabs.Screen name="leaderboards-unified" options={{ title: "Leaderboards", tabBarIcon: ({ color }) => <IconSymbol size={26} name="list.number" color={color} /> }} />
-        <Tabs.Screen name="host-tournaments" options={{ title: "Tournaments", tabBarIcon: ({ color }) => <IconSymbol size={26} name="trophy.fill" color={color} /> }} />
-        <Tabs.Screen name="team-rankings" options={{ title: "Teams", tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.2.fill" color={color} /> }} />
-        <Tabs.Screen name="profile" options={{ title: "Profile", tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.fill" color={color} /> }} />
-        {/* Hide all other tabs */}
-        <Tabs.Screen name="index" options={{ href: null }} />
-        <Tabs.Screen name="feed" options={{ href: null }} />
-        <Tabs.Screen name="rankings" options={{ href: null }} />
-        <Tabs.Screen name="tournaments" options={{ href: null }} />
-        <Tabs.Screen name="passport" options={{ href: null }} />
-      <Tabs.Screen name="leaderboards" options={{ href: null }} />
-      <Tabs.Screen name="player-id-card" options={{ href: null }} />
-        <Tabs.Screen name="coach-id-card" options={{ href: null }} />
-        <Tabs.Screen name="host-teams" options={{ href: null }} />
-        <Tabs.Screen name="host-payments" options={{ href: null }} />
-        <Tabs.Screen name="admin-dashboard" options={{ href: null }} />
-        <Tabs.Screen name="admin-users" options={{ href: null }} />
-        <Tabs.Screen name="admin-payments" options={{ href: null }} />
-        <Tabs.Screen name="admin-content" options={{ href: null }} />
-        <Tabs.Screen name="facial-recognition-checkin" options={{ href: null }} />
-      </Tabs>
-    );
-  }
-
-  if (activeRole === "admin") {
-    return (
-      <Tabs
-        screenOptions={{
-          tabBarActiveTintColor: colors.tint,
-          headerShown: false,
-          tabBarButton: HapticTab,
-          tabBarStyle,
-        }}
-      >
-        <Tabs.Screen name="index" options={{ title: "Overview", tabBarIcon: ({ color }) => <IconSymbol size={26} name="chart.bar.fill" color={color} /> }} />
-        <Tabs.Screen name="admin-users" options={{ title: "Users", tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.2.fill" color={color} /> }} />
-        <Tabs.Screen name="admin-payments" options={{ title: "Payments", tabBarIcon: ({ color }) => <IconSymbol size={26} name="dollarsign.circle.fill" color={color} /> }} />
-        <Tabs.Screen name="profile" options={{ title: "Profile", tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.fill" color={color} /> }} />
-        {/* Hide all other tabs */}
-        <Tabs.Screen name="feed" options={{ href: null }} />
-        <Tabs.Screen name="rankings" options={{ href: null }} />
-        <Tabs.Screen name="tournaments" options={{ href: null }} />
-        <Tabs.Screen name="passport" options={{ href: null }} />
-        <Tabs.Screen name="leaderboards" options={{ href: null }} />
-        <Tabs.Screen name="player-id-card" options={{ href: null }} />
-        <Tabs.Screen name="coach-id-card" options={{ href: null }} />
-        <Tabs.Screen name="host-tournaments" options={{ href: null }} />
-        <Tabs.Screen name="host-teams" options={{ href: null }} />
-        <Tabs.Screen name="host-payments" options={{ href: null }} />
-        <Tabs.Screen name="admin-content" options={{ href: null }} />
-        <Tabs.Screen name="facial-recognition-checkin" options={{ href: null }} />
-        <Tabs.Screen name="team-rankings" options={{ href: null }} />
-      </Tabs>
-    );
-  }
-
-  // Default: Athlete - SIMPLIFIED to core tabs only
+  // All roles use the same 4 core tabs: Home, Tournaments, Leaderboards, Profile
+  // Console features (payments, team roster, check-ins, waivers, etc.) are accessed via Profile tab
   return (
     <Tabs
       screenOptions={{
@@ -134,16 +35,16 @@ export default function TabLayout() {
     >
       <Tabs.Screen name="index" options={{ title: "Home", tabBarIcon: ({ color }) => <IconSymbol size={26} name="house.fill" color={color} /> }} />
       <Tabs.Screen name="tournaments" options={{ title: "Tournaments", tabBarIcon: ({ color }) => <IconSymbol size={26} name="trophy.fill" color={color} /> }} />
-      <Tabs.Screen name="team-rankings" options={{ title: "Teams", tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.2.fill" color={color} /> }} />
+      <Tabs.Screen name="leaderboards-unified" options={{ title: "Leaderboards", tabBarIcon: ({ color }) => <IconSymbol size={26} name="list.number" color={color} /> }} />
       <Tabs.Screen name="profile" options={{ title: "Profile", tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.fill" color={color} /> }} />
-      {/* Hide all other tabs */}
+
+      {/* Hide all non-core tabs - all console features are in Profile tab */}
       <Tabs.Screen name="feed" options={{ href: null }} />
       <Tabs.Screen name="rankings" options={{ href: null }} />
       <Tabs.Screen name="passport" options={{ href: null }} />
       <Tabs.Screen name="player-id-card" options={{ href: null }} />
       <Tabs.Screen name="coach-id-card" options={{ href: null }} />
       <Tabs.Screen name="leaderboards" options={{ href: null }} />
-      <Tabs.Screen name="leaderboards-unified" options={{ href: null }} />
       <Tabs.Screen name="host-tournaments" options={{ href: null }} />
       <Tabs.Screen name="host-teams" options={{ href: null }} />
       <Tabs.Screen name="host-payments" options={{ href: null }} />
@@ -152,6 +53,15 @@ export default function TabLayout() {
       <Tabs.Screen name="admin-payments" options={{ href: null }} />
       <Tabs.Screen name="admin-content" options={{ href: null }} />
       <Tabs.Screen name="facial-recognition-checkin" options={{ href: null }} />
+      <Tabs.Screen name="team-rankings" options={{ href: null }} />
+      <Tabs.Screen name="coach-roster" options={{ href: null }} />
+      <Tabs.Screen name="coach-payments" options={{ href: null }} />
+      <Tabs.Screen name="checkin-analytics" options={{ href: null }} />
+      <Tabs.Screen name="waiver-management" options={{ href: null }} />
+      <Tabs.Screen name="admin-fee-dashboard" options={{ href: null }} />
+      <Tabs.Screen name="admin-reconciliation-reports" options={{ href: null }} />
+      <Tabs.Screen name="notification-templates" options={{ href: null }} />
+      <Tabs.Screen name="notifications" options={{ href: null }} />
     </Tabs>
   );
 }

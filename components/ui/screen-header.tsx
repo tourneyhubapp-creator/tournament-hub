@@ -10,9 +10,11 @@ interface ScreenHeaderProps {
   showBack?: boolean;
   rightIcon?: SymbolViewProps["name"];
   onRightPress?: () => void;
+  rightIcon2?: SymbolViewProps["name"];
+  onRightPress2?: () => void;
 }
 
-export function ScreenHeader({ title, subtitle, showBack, rightIcon, onRightPress }: ScreenHeaderProps) {
+export function ScreenHeader({ title, subtitle, showBack, rightIcon, onRightPress, rightIcon2, onRightPress2 }: ScreenHeaderProps) {
   const colors = useColors();
   const router = useRouter();
   return (
@@ -31,14 +33,24 @@ export function ScreenHeader({ title, subtitle, showBack, rightIcon, onRightPres
           {subtitle && <Text className="text-xs text-muted">{subtitle}</Text>}
         </View>
       </View>
-      {rightIcon && onRightPress && (
-        <Pressable
-          onPress={onRightPress}
-          style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
-        >
-          <IconSymbol name={rightIcon} size={24} color={colors.primary} />
-        </Pressable>
-      )}
+      <View className="flex-row items-center gap-3">
+        {rightIcon2 && onRightPress2 && (
+          <Pressable
+            onPress={onRightPress2}
+            style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
+          >
+            <IconSymbol name={rightIcon2} size={24} color={colors.primary} />
+          </Pressable>
+        )}
+        {rightIcon && onRightPress && (
+          <Pressable
+            onPress={onRightPress}
+            style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
+          >
+            <IconSymbol name={rightIcon} size={24} color={colors.primary} />
+          </Pressable>
+        )}
+      </View>
     </View>
   );
 }
