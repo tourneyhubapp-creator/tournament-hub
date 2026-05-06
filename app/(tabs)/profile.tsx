@@ -8,6 +8,7 @@ import { RoleSelector } from "@/components/role-selector";
 import { useColors } from "@/hooks/use-colors";
 import { useTournament } from "@/lib/tournament-context";
 import { useRouter } from "expo-router";
+import { useTheme } from "@/lib/theme-provider";
 
 function ProfileStat({ label, value }: { label: string; value: string }) {
   const colors = useColors();
@@ -99,8 +100,10 @@ export default function ProfileScreen() {
   const colors = useColors();
   const { activeRole } = useTournament();
   const router = useRouter();
+  const { colorScheme, toggleTheme } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [activeIDCard, setActiveIDCard] = useState<"player" | "coach">("player");
+  const [unreadCount, setUnreadCount] = useState(3); // Mock unread notifications
 
   const roleLabel = activeRole === "athlete" ? "Athlete" : activeRole === "coach" ? "Coach" : activeRole === "host" ? "Tournament Host" : "Platform Admin";
   const roleBadgeVariant = activeRole === "admin" ? "accent" : activeRole === "host" ? "primary" : activeRole === "coach" ? "warning" : "success";
@@ -114,6 +117,14 @@ export default function ProfileScreen() {
         rightIcon="gearshape.fill" 
         onRightPress={() => {}} 
       />
+      {/* Unread Badge Overlay on Bell Icon */}
+      {unreadCount > 0 && (
+        <View style={{ position: "absolute", top: 8, right: 16, zIndex: 10 }}>
+          <View style={{ width: 20, height: 20, borderRadius: 10, backgroundColor: colors.error, alignItems: "center", justifyContent: "center" }}>
+            <Text style={{ fontSize: 11, fontWeight: "700", color: "white" }}>{unreadCount > 9 ? "9+" : unreadCount}</Text>
+          </View>
+        </View>
+      )}
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 32 }}>
         {/* Profile Header */}
@@ -251,6 +262,7 @@ export default function ProfileScreen() {
           <View style={{ marginHorizontal: 16, marginBottom: 16, backgroundColor: colors.surface, borderRadius: 20, borderWidth: 1, borderColor: colors.border, overflow: "hidden" }}>
             <Text style={{ fontSize: 13, fontWeight: "700", color: colors.muted, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 }}>Host Console</Text>
             <MenuItem icon="camera.fill" label="Facial Recognition Check-In" onPress={() => router.push("/(tabs)/facial-recognition-checkin")} />
+            <MenuItem icon="person.badge.plus.fill" label="Invite Staff Members" onPress={() => router.push("/(tabs)/staff-invitations")} />
             <MenuItem icon="chart.bar.fill" label="Check-In Analytics" onPress={() => router.push("/(tabs)/checkin-analytics")} />
             <MenuItem icon="dollarsign.circle.fill" label="Payments" onPress={() => router.push("/(tabs)/host-payments")} />
             <MenuItem icon="doc.fill" label="Waivers" onPress={() => router.push("/(tabs)/waiver-management")} />
@@ -294,6 +306,18 @@ export default function ProfileScreen() {
             <Pressable onPress={() => {}}>
               <IconSymbol name="chevron.right" size={16} color={colors.muted} />
             </Pressable>
+          </View>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 14, paddingVertical: 14, paddingHorizontal: 16, borderBottomWidth: 1, borderBottomColor: colors.border }}>
+            <View style={{ width: 36, height: 36, borderRadius: 10, backgroundColor: colors.surface, alignItems: "center", justifyContent: "center" }}>
+              <IconSymbol name={colorScheme === "dark" ? "moon.fill" : "sun.max.fill"} size={18} color={colors.primary} />
+            </View>
+            <Text style={{ flex: 1, fontSize: 15, color: colors.foreground, fontWeight: "500" }}>Dark Mode</Text>
+            <Switch
+              value={colorScheme === "dark"}
+              onValueChange={toggleTheme}
+              trackColor={{ false: colors.border, true: colors.primary }}
+              thumbColor="#FFFFFF"
+            />
           </View>
         </View>
 

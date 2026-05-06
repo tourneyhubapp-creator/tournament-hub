@@ -283,3 +283,70 @@
 - [x] Show Coach ID only for Coach role users
 - [x] Show Player ID Card only for Athlete role users
 - [x] Display under "Your Credentials" section in Profile
+
+
+## Phase 14 — Final Refinements (COMPLETED)
+
+### Dark Mode Toggle for All Tabs
+- [x] Add dark mode toggle switch to Profile settings
+- [x] Apply dark background styling to Home tab
+- [x] Apply dark background styling to Tournaments tab
+- [x] Apply dark background styling to Leaderboards tab
+- [x] Apply dark background styling to Profile tab
+- [x] Persist dark mode preference to AsyncStorage
+- [x] Test dark mode on all screens for readability
+
+### Official Logo Publication
+- [x] Upload official red "T" logo to app branding
+- [x] Update app.config.ts with logo URL
+- [x] Update icon.png with official logo
+- [x] Update splash-icon.png with official logo
+- [x] Update favicon.png with official logo
+- [x] Update android-icon-foreground.png with official logo
+
+### Staff Role Implementation
+- [x] Add "staff" role to users table role enum
+- [x] Create staffProfiles table in database
+- [x] Add "staff" to role selector in app
+- [x] Create staff-specific tab layout with 4 main tabs
+- [x] Build Staff Home screen (event-specific view)
+- [x] Build Staff Tournaments screen (invited events only)
+- [x] Build Staff Leaderboards screen (event participants only)
+- [x] Build Staff Profile screen (limited to event data)
+- [x] Update role context to support staff role
+
+### Staff Permissions & Data Access
+- [x] Restrict staff access to only invited events
+- [x] Hide financial/payment data from staff view
+- [x] Hide host private information from staff view
+- [x] Show event details: game times, teams registered
+- [x] Show coach rosters (event-specific)
+- [x] Show player rosters (event-specific)
+- [x] Show field maps for events
+- [x] Grant access to Facial Recognition Check-In tool
+
+### Staff Invitation System (Host Console)
+- [x] Add "Invite Staff Members" menu item to Host Console
+- [x] Create staff invitation screen
+- [x] Implement user search by name/email
+- [x] Build invitation sending UI
+- [x] Display list of invited/active staff
+- [x] Add revoke staff access functionality
+- [x] Send invitation notifications to staff
+- [x] Create staff acceptance workflow
+
+### Unread Notification Badge
+- [x] Query unread notification count from database
+- [x] Display badge count on bell icon
+- [x] Update badge count in real-time
+- [x] Hide badge when count is 0
+- [x] Style badge with red background and white text
+
+### Testing & Validation
+- [x] Test dark mode persistence across app sessions
+- [x] Test staff role permissions and data access
+- [x] Test staff invitation workflow
+- [x] Verify staff cannot access host financial data
+- [x] Verify staff can only see invited events
+- [x] Test notification badge updates
+- [x] Test all user flows end-to-end

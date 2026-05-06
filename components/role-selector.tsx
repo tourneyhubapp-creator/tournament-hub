@@ -4,10 +4,11 @@ import { useTournament, type UserRole } from "@/lib/tournament-context";
 import { IconSymbol } from "./ui/icon-symbol";
 import { useColors } from "@/hooks/use-colors";
 
-const ROLES: { role: UserRole; label: string; icon: "figure.run" | "person.fill" | "building.2.fill" | "crown.fill"; description: string }[] = [
+const ROLES: { role: UserRole; label: string; icon: string; description: string }[] = [
   { role: "athlete", label: "Athlete", icon: "figure.run", description: "View profile, passport & rankings" },
   { role: "coach", label: "Coach", icon: "person.fill", description: "Manage roster & tournaments" },
   { role: "host", label: "Host", icon: "building.2.fill", description: "Manage tournaments & teams" },
+  { role: "staff", label: "Staff", icon: "person.badge.plus.fill", description: "Check-in & event management" },
   { role: "admin", label: "Admin", icon: "crown.fill", description: "Platform management & oversight" },
 ];
 
@@ -35,7 +36,7 @@ export function RoleSelector() {
           borderColor: colors.border,
         })}
       >
-        <IconSymbol name={current.icon} size={14} color={colors.primary} />
+        <IconSymbol name={current.icon as any} size={14} color={colors.primary} />
         <Text style={{ color: colors.foreground, fontSize: 13, fontWeight: "600" }}>{current.label}</Text>
         <IconSymbol name="chevron.down" size={14} color={colors.muted} />
       </Pressable>
@@ -64,7 +65,7 @@ export function RoleSelector() {
                 })}
               >
                 <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: colors.primary + "20", alignItems: "center", justifyContent: "center" }}>
-                  <IconSymbol name={item.icon} size={20} color={colors.primary} />
+                  <IconSymbol name={item.icon as any} size={20} color={colors.primary} />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={{ fontSize: 15, fontWeight: "700", color: colors.foreground }}>{item.label}</Text>
