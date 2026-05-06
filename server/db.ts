@@ -94,7 +94,7 @@ export async function getUserByOpenId(openId: string) {
 // ─────────────────────────────────────────────
 // TOURNAMENT HUB QUERY HELPERS
 // ─────────────────────────────────────────────
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, count, desc, eq, sql } from "drizzle-orm";
 import {
   athleteHeadshots,
   athleteProfiles,
@@ -513,6 +513,12 @@ export async function markNotificationRead(id: number) {
   const db = await getDb();
   if (!db) return;
   await db.update(notifications).set({ isRead: true }).where(eq(notifications.id, id));
+}
+export async function getUnreadNotificationCount(userId: number) {
+  const db = await getDb();
+  if (!db) return 0;
+  const result = await db.select({ count: count() }).from(notifications).where(and(eq(notifications.userId, userId), eq(notifications.isRead, false)));
+  return result[0]?.count || 0;
 }
 
 // POOLS

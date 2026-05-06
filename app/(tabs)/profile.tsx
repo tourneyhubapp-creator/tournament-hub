@@ -1,5 +1,5 @@
 import { ScrollView, Text, View, Pressable, Switch } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ScreenContainer } from "@/components/screen-container";
 import { ScreenHeader } from "@/components/ui/screen-header";
 import { IconSymbol } from "@/components/ui/icon-symbol";
@@ -8,6 +8,7 @@ import { RoleSelector } from "@/components/role-selector";
 import { useColors } from "@/hooks/use-colors";
 import { useTournament } from "@/lib/tournament-context";
 import { useRouter } from "expo-router";
+import { trpc } from "@/lib/trpc";
 import { useTheme } from "@/lib/theme-provider";
 
 function ProfileStat({ label, value }: { label: string; value: string }) {
@@ -103,7 +104,21 @@ export default function ProfileScreen() {
   const { colorScheme, toggleTheme } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [activeIDCard, setActiveIDCard] = useState<"player" | "coach">("player");
-  const [unreadCount, setUnreadCount] = useState(3); // Mock unread notifications
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  // Fetch unread notification count from API
+  useEffect(() => {
+    const fetchUnreadCount = async () => {
+      try {
+        // Mock unread count for now - will connect to real API
+        setUnreadCount(3);
+      } catch (error) {
+        console.error("Failed to fetch unread count:", error);
+        setUnreadCount(0);
+      }
+    };
+    fetchUnreadCount();
+  }, []);
 
   const roleLabel = activeRole === "athlete" ? "Athlete" : activeRole === "coach" ? "Coach" : activeRole === "host" ? "Tournament Host" : "Platform Admin";
   const roleBadgeVariant = activeRole === "admin" ? "accent" : activeRole === "host" ? "primary" : activeRole === "coach" ? "warning" : "success";

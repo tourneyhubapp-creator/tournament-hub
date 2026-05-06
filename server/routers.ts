@@ -396,6 +396,7 @@ export const appRouter = router({
   notifications: router({
     get: protectedProcedure.query(({ ctx }) => db.getNotifications(ctx.user.id)),
 
+    getUnreadCount: protectedProcedure.query(({ ctx }) => db.getUnreadNotificationCount(ctx.user.id)),
     markRead: protectedProcedure
       .input(z.object({ id: z.number().int() }))
       .mutation(({ input }) => db.markNotificationRead(input.id)),
