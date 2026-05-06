@@ -261,6 +261,17 @@ export default function ProfileScreen() {
           </View>
         )}
 
+        {/* STAFF CONSOLE */}
+        {activeRole === "staff" && (
+          <View style={{ marginHorizontal: 16, marginBottom: 16, backgroundColor: colors.surface, borderRadius: 20, borderWidth: 1, borderColor: colors.border, overflow: "hidden" }}>
+            <Text style={{ fontSize: 13, fontWeight: "700", color: colors.muted, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 }}>Staff Console</Text>
+            <MenuItem icon="calendar.fill" label="Invited Events" onPress={() => router.push("/(tabs)/staff-home")} />
+            <MenuItem icon="camera.fill" label="Facial Recognition Check-In" onPress={() => router.push("/(tabs)/facial-recognition-checkin")} />
+            <MenuItem icon="person.2.fill" label="Team Rosters" onPress={() => router.push("/(tabs)/coach-roster")} />
+            <MenuItem icon="map.fill" label="Field Maps" />
+          </View>
+        )}
+
         {/* COACH CONSOLE */}
         {activeRole === "coach" && (
           <View style={{ marginHorizontal: 16, marginBottom: 16, backgroundColor: colors.surface, borderRadius: 20, borderWidth: 1, borderColor: colors.border, overflow: "hidden" }}>
@@ -293,6 +304,7 @@ export default function ProfileScreen() {
             <MenuItem icon="gearshape.fill" label="Platform Fee Configuration" onPress={() => router.push("/(tabs)/admin-fee-dashboard")} />
             <MenuItem icon="doc.fill" label="Payment Reconciliation Reports" onPress={() => router.push("/(tabs)/admin-reconciliation-reports")} />
             <MenuItem icon="bell.fill" label="Notification Templates" onPress={() => router.push("/(tabs)/notification-templates")} />
+            <MenuItem icon="megaphone.fill" label="Advertisements" onPress={() => router.push("/(tabs)/admin-advertisements")} />
           </View>
         )}
 
