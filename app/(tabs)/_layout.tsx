@@ -64,6 +64,7 @@ export default function TabLayout() {
       <Tabs.Screen name="notification-templates" options={{ href: null }} />
       <Tabs.Screen name="notifications" options={{ href: null }} />
       <Tabs.Screen name="staff-invitations" options={{ href: null }} />
+      <Tabs.Screen name="staff-home" options={{ href: null }} />
     </Tabs>
   );
 }
